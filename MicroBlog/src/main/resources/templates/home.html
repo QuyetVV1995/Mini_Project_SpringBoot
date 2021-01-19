@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME</title>
+</head>
+<body>
+<h1>LIST POST</h1>
+<ul>
+    <li th:each="postList: ${postList}">
+        <p >Title: <span th:text="${postList.title}"> </span></p>
+        <p >Content: <span th:text="${postList.content}"> </span></p>
+        <p >Last Update: <span th:text="${postList.lastUpdate}"> </span></p>
+        <p >Comment: <span th:text="${postList.comment}"> </span></p>
+        <p >Author: <span th:text="${postList.author}"> </span></p>
+    </li>
+</ul>
+</body>
+</html>
