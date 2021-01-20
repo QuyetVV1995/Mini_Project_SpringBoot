@@ -110,8 +110,8 @@ VALUES (6, 3,
         CURRENT_TIMESTAMP());
 
 -- CATEGORY
-INSERT INTO  CATEGORY(category_id, category, post_id)
-VALUES(1,'SPRINGBOOT', 1);
-INSERT INTO  CATEGORY(category_id, category, post_id)
-VALUES(2,'JAPANESES', 2);
+INSERT INTO  CATEGORY( category, post_id)
+VALUES('SPRINGBOOT', 1);
+INSERT INTO  CATEGORY( category, post_id)
+VALUES('JAPANESES', 2);
 
