@@ -41,6 +41,17 @@
         </div>
     </div>
 
+    <h2>Category:</h2>
+
+    <!--Category-->
+    <div class="well" th:each="category : ${post.category}">
+        <h3 th:text="${category.category}">Category</h3>
+
+    </div>
+
+
+
+
     <!--Leave a comment button-->
     <!--Only if authenticated-->
     <div sec:authorize="isAuthenticated()">

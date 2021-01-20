@@ -88,6 +88,7 @@ public class PostController {
 
         Optional<Post> optionalPost = postService.findForId(id);
 
+
         if (optionalPost.isPresent()) {
             Post post = optionalPost.get();
 
