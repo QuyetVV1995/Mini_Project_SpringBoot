@@ -40,6 +40,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private Collection<Comment> comments;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private Collection<Category> category;
+
     public Long getId() {
         return id;
     }

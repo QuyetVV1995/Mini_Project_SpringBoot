@@ -29,7 +29,7 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "post_id", nullable = false)
     @NotNull
-    private Post post;
+    private Post post; // Duoc mappedBy "post" trong Post.java
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
