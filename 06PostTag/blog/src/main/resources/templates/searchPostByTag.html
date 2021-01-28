@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout :: head"></head>
+<body>
+  <div class="container">
+  <menu th:replace="layout :: menu(title='Search Post By Tag')"></menu>
+    <p>Result search by Tag: <span th:text="${tag_post.name}"></span> </p>
+        <div th:each="post : ${tag_post.posts}">
+            <a th:href="${'/post/' + post.id}"  th:text="${post.title}"></a>
+        </div>
+
+        
+</body>
+</html>
