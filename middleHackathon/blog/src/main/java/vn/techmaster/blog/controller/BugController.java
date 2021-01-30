@@ -64,7 +64,7 @@ public class BugController {
 
     @PostMapping(value = "/bug")
   public String createBug(@Valid @ModelAttribute("bug") BugRequest bugRequest,
-  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+  @RequestParam("file") MultipartFile file,@RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2, RedirectAttributes redirectAttributes,
   ModelMap modelMap, BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException {
 
     UserInfo user = authenService.getLoginedUser(request);
@@ -80,9 +80,13 @@ public class BugController {
         if (bugRequest.getId() == null) {
             bugRequest.setPhoto(file.getBytes());
             bugRequest.setNamefile(file.getOriginalFilename());
+            bugRequest.setNamefile1(file1.getOriginalFilename());
+            bugRequest.setNamefile2(file2.getOriginalFilename());
             bugService.createNewBug(bugRequest); //Create
         } else {
             bugRequest.setPhoto(file.getBytes());
+            bugRequest.setNamefile1(file1.getOriginalFilename());
+            bugRequest.setNamefile2(file2.getOriginalFilename());
             bugRequest.setNamefile(file.getOriginalFilename());
             bugService.updateBug(bugRequest);  //Edit
         }

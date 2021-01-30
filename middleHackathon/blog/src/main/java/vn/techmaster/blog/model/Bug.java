@@ -68,4 +68,6 @@ public class Bug {
     private byte[] photo;
 
     private String namefile;
+    private String namefile1;
+    private String namefile2;
 }

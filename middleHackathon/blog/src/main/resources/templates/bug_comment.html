@@ -11,8 +11,10 @@
     <h3 th:text="${bug.title}"></h3>
 
     <p th:text="${bug.content}" class="mt-2"></p>
-
+    <p>File uploaded:</p>
     <p th:text="${bug.namefile}"></p>
+    <p th:text="${bug.namefile1}"></p>
+    <p th:text="${bug.namefile2}"></p>
 
     
     <button class="btn btn-primary mt-3" th:classappend="${user!=null ? 'd-block' : 'd-none'}" type="button"
