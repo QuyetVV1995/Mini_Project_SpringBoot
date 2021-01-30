@@ -1,5 +1,7 @@
 package vn.techmaster.blog.controller.request;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,4 +27,7 @@ public class BugRequest {
 
     private Long user_id;
 
+    private byte[] photo;
+
+    private String namefile;
 }

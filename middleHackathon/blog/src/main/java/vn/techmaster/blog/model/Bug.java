@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -64,5 +64,8 @@ public class Bug {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;  //Tác giả viết post
     
-    
+    @Lob
+    private byte[] photo;
+
+    private String namefile;
 }

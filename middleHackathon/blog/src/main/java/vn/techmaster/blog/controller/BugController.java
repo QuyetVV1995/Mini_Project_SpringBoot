@@ -1,5 +1,9 @@
 package vn.techmaster.blog.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import vn.techmaster.blog.DTO.UserInfo;
 import vn.techmaster.blog.controller.request.BugRequest;
@@ -35,6 +42,9 @@ public class BugController {
     @Autowired
     private IBugService bugService;
 
+     //Save the uploaded file to this folder
+     private static String UPLOADED_FOLDER = "Desktop";
+
 
     @GetMapping("/bug")  //Show form để tạo mới Post
     public String createBug(Model model, HttpServletRequest request) {
@@ -53,16 +63,27 @@ public class BugController {
 
 
     @PostMapping(value = "/bug")
-  public String createBug(@Valid @ModelAttribute("bug") BugRequest bugRequest, ModelMap modelMap, BindingResult bindingResult, Model model, HttpServletRequest request) {
+  public String createBug(@Valid @ModelAttribute("bug") BugRequest bugRequest,
+  @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+  ModelMap modelMap, BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException {
+
     UserInfo user = authenService.getLoginedUser(request);
     modelMap.addAttribute("bugRequest",bugRequest);
 
+    if (file.isEmpty()) {
+      return "redirect:/bugs";
+    }
+
+  
     if (user != null && user.getId() == bugRequest.getUser_id()) {
       try {
         if (bugRequest.getId() == null) {
-
+            bugRequest.setPhoto(file.getBytes());
+            bugRequest.setNamefile(file.getOriginalFilename());
             bugService.createNewBug(bugRequest); //Create
         } else {
+            bugRequest.setPhoto(file.getBytes());
+            bugRequest.setNamefile(file.getOriginalFilename());
             bugService.updateBug(bugRequest);  //Edit
         }
       } catch (BugException pe) {

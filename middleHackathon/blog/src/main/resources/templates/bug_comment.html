@@ -12,7 +12,7 @@
 
     <p th:text="${bug.content}" class="mt-2"></p>
 
-    <p th:text="${bug.status}" class="mt-2"></p>
+    <p th:text="${bug.namefile}"></p>
 
     
     <button class="btn btn-primary mt-3" th:classappend="${user!=null ? 'd-block' : 'd-none'}" type="button"
