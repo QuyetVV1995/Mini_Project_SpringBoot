@@ -5,8 +5,6 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.lang.Nullable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,9 +24,5 @@ public class PostRequest {
   private String content;
 
   private Long user_id;
-
-  @Nullable
-  private String photos;
-
   private Set<Tag> tags;
 }

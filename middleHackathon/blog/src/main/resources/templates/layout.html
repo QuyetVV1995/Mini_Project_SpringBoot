@@ -5,25 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title th:text="${user} ? ${user.fullname} + '\'s micro blog': 'Home page'"></title>
-
-  
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-  <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
-
-  <link th:rel="stylesheet" th:href="@{/assets/simplemde/simplemde.min.css}"/>
-
-  
 </head>
 <body>
   <div th:fragment="menu(title)" class="mb-3">
     <h1 th:text="${title}">Home Page</h1>
     <a href="/" class="me-4">Home</a>
     <a href="/login" class="me-4" th:style="${user==null ? 'display:inline' : 'display:none'}">Login</a>
-    <a href="/post" class="me-4" th:style="${user==null ? 'display:none' : 'display:inline'}">Write a post</a>
+    <a href="/bug" class="me-4" th:style="${user==null ? 'display:none' : 'display:inline'}">Write a Bug</a>
     <a href="/logout" class="me-4" th:style="${user==null ? 'display:none' : 'display:inline'}" th:text="${user!=null ? 'Log out as ' + user.fullname : ''}">Logout</a><br>
-  </div>
-  
+  </div> 
 </body>
 </html>

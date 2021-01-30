@@ -16,5 +16,4 @@ public class PostPOJO {
   private Long user_id;
   private String userFullName;
   private LocalDateTime lastUpdate;
-
 }
