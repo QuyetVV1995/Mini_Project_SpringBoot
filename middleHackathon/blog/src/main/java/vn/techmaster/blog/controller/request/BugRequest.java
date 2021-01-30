@@ -29,6 +29,8 @@ public class BugRequest {
 
     private byte[] photo;
 
+    private vn.techmaster.blog.model.Bug.status status;
+
     private String namefile;
     private String namefile1;
     private String namefile2;

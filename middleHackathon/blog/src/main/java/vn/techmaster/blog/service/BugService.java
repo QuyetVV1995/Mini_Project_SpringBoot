@@ -39,7 +39,11 @@ public class BugService implements IBugService {
         if (optionalUser.isPresent()) {
         User user = optionalUser.get();
         Bug bug = BugMapper.INSTANCE.bugRequestToBug(bugRequest);
-        bug.setStatus(status.NOT_FIX);
+        if(bug.getStatus() == null){
+          bug.setStatus(status.NOT_FIX);
+        }else{
+          bug.setStatus(bugRequest.getStatus());
+        }
          
         bugRepository.saveAndFlush(bug);
         user.addBug(bug);
@@ -57,7 +61,12 @@ public class BugService implements IBugService {
           Bug bug = optionalBug.get();
           bug.setTitle(bugRequest.getTitle());
           bug.setContent(bugRequest.getContent());
-          bug.setStatus(status.NOT_FIX);
+          if(bug.getStatus() == null){
+            bug.setStatus(status.NOT_FIX);
+          }else{
+            bug.setStatus(bugRequest.getStatus());
+          }
+         
          
           bugRepository.saveAndFlush(bug);
         } else {

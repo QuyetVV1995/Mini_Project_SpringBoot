@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import vn.techmaster.blog.DTO.BugMapper;
 import vn.techmaster.blog.DTO.UserInfo;
 import vn.techmaster.blog.controller.request.BugRequest;
 import vn.techmaster.blog.controller.request.CommentRequest;
 import vn.techmaster.blog.model.Bug;
 import vn.techmaster.blog.model.Comment;
+import vn.techmaster.blog.model.Bug.status;
 import vn.techmaster.blog.service.BugException;
 import vn.techmaster.blog.service.IAuthenService;
 import vn.techmaster.blog.service.IBugService;
@@ -54,6 +56,9 @@ public class BugController {
         bugRequest.setUser_id(user.getId());
         model.addAttribute("bug", bugRequest);
         model.addAttribute("user", user);
+        model.addAttribute("status1", status.ESCALATED);
+        model.addAttribute("status2", status.FIXED);
+        model.addAttribute("status3", status.NOT_FIX);
 
         return "bug";  
       } else {
@@ -69,7 +74,8 @@ public class BugController {
 
     UserInfo user = authenService.getLoginedUser(request);
     modelMap.addAttribute("bugRequest",bugRequest);
-
+    System.out.println("------------------");
+    System.out.println(bugRequest.getStatus());
     if (file.isEmpty()) {
       return "redirect:/bugs";
     }
@@ -140,5 +146,19 @@ public class BugController {
     
   }
 
+  @GetMapping("/bug/editStatus/{id}")
+  public String editStatus(Model model, @PathVariable("id") long id,  HttpServletRequest request){
+    Optional<Bug> optionalBug = bugService.findById(id);
+    UserInfo user = authenService.getLoginedUser(request);
+    
+    Bug bug = optionalBug.get();
 
+    BugRequest bugRequest =  BugMapper.INSTANCE.bugtoBugRequest(bug);
+    model.addAttribute("user", user);
+    model.addAttribute("bug", bugRequest);
+    model.addAttribute("status1", status.ESCALATED);
+    model.addAttribute("status2", status.FIXED);
+    model.addAttribute("status3", status.NOT_FIX);
+    return "editBug";
+  }
 }
