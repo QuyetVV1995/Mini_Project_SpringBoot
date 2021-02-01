@@ -2,12 +2,15 @@
 
 Trong phần này chúng ta sẽ bổ xung chức năng phân loại bài viết: tagging a post. Một Post được đánh dấu bởi nhiều Tag. Một Tag dùng để đánh dấu nhiều Post
 Bảng TAG
+
 ![](images/tag.jpg)
 
 Bảng POST
+
 ![](images/post.jpg)
 
 Bảng trung gian POST_TAG
+
 ![](images/post_tag.jpg)
 ## Định nghĩa quan hệ nhiều - nhiều ~ Many to Many
 
@@ -50,7 +53,7 @@ public class Tag {
 
 Chúng ta bổ xung thêm file [tag.sql](src/main/resources/tag.sql) để nạp sẵn dữ liệu cho bảng Tag.
 
-Ở đây chúng ta thấy trong ```class Post``` có 2 phương thức ```addTag(Tag tag)``` và ```removeTag(Tag tag)``` mà tại sao không có chiều ngược lại ở ```class Tag``` kiểu như ```addPost(Post post)``` và ```removePost(Post post)``?
+Ở đây chúng ta thấy trong ```class Post``` có 2 phương thức ```addTag(Tag tag)``` và ```removeTag(Tag tag)``` mà tại sao không có chiều ngược lại ở ```class Tag``` kiểu như ```addPost(Post post)``` và ```removePost(Post post)``` ?
 Trả lời: 
 - Có thể bổ xung 2 method tương ứng ở ```class Tag``` nhưng việc đó khiến cho code rối.
 - Chủ thể quan trọng ở đây là Post. Tag là thông tin bổ trợ, do đó chúng ta tạo 2 phương thức tác động lên Post
@@ -207,7 +210,7 @@ public String showPostAndComment(@PathVariable("id") long id, Model model, HttpS
 ### Fragment, truyền tham số vào Fragment
 ```th:fragment``` là một khối các mã HTML + Thymeleaf được tái sử dụng
 
-1. Để dùng lại một fragement chúng ta có chọn ```th:replace``` và 
+1. Để dùng lại một fragement chúng ta có chọn ```th:replace``` hoặc ```th:insert```. Khác biệt là replace sẽ thay thế toàn bộ nội dung ở target tag bằng fragment tag, còn insert thì nhúng fragment tag vào targert tag.
 Xem [layout.html](src/main/resources/templates/layout.html)
 
 ```html
@@ -233,21 +236,72 @@ Xem [layout.html](src/main/resources/templates/layout.html)
 ```
 ### Tạo check boxes chọn Tag
 ![](images/dislay_tags.jpg)
+Theo đúng chuẩn của Thymeleaf thì chúng ta sẽ phải viết cú pháp để sinh ra các check box như sau
 ```html
-<div class="form-check d-inline-flex" th:each="tag : ${tags}">
+<input type="checkbox" name="tags"
+  th:each="tag : ${allTags}"
+  th:text="${tag.name}"
+  th:value="${tag.id}"
+  th:field="*{tags}"
+/>
+```
+Code này học từ trang [Spring Thymeleaf Form Multi-Checkboxes Mapping with Collection Example
+](https://www.codejava.net/frameworks/spring-boot/spring-thymeleaf-form-multi-checkboxes-mapping-with-collection-example)
+
+Trong code trên có 2 đối tượng ```allTags``` là danh sách tất cả các tag. Còn ```*{tags}``` sẽ là thuộc tính của đối tượng ```post```. Mỗi post sẽ chỉ có một vài tag trong số ```allTags``` thôi.
+
+Đoạn code để truyền đối tượng ```post``` và ```allTags``` sẽ kiểu như sau
+```java
+Optional<Post> optionalPost = postService.findById(idRequest.getId());  //Tìm Post theo id
+
+if (user != null && optionalPost.isPresent()) {
+  Post post = optionalPost.get();
+  PostRequest postReqest =  PostMapper.INSTANCE.postToPostRequest(post); //Chuyển Post sang PostRequest
+  
+  model.addAttribute("post", postReqest);  //truyền cho Thymeleaf đối tượng post. Đối tượng post có thuộc tính tags gồm một số tag nó được phân loại
+  List<Tag> tags = postService.getAllTags(); //lấy danh sách tất cả tags
+  model.addAttribute("allTags", tags);
+  UserInfo userInfo = UserMapper.INSTANCE.userToUserInfo(post.getUser()); //Truyền thông tin user sau khi lược bỏ trường nhạy cảm như password
+  model.addAttribute("user", userInfo);
+  return Route.POST;
+} else {
+  return Route.REDIRECT_POSTS;
+}
+```
+
+Cách sinh checkbox nói trên tạm gọi là cách dùng ```th:field``` lúc tạo mới Post thì thành công nhưng Edit thì báo lỗi rất khó hiểu. Chúng ta phải tìm cách khác. Cách này chia 2 trường hợp: Create và Edit.
+
+Xem file [post.html](src/main/resources/templates/post.html)
+**Sinh checkbox trạng thái Create, chưa có ô nào check**
+Trường hợp này điều kiện ```post.id > 0``` là false
+```html
+<div th:unless="${post.id > 0}" class="form-check d-inline-flex" th:each="tag : ${allTags}">
   <input class="form-check-input me-2" type="checkbox" 
-  th:value="${tag.id}" 
-  name="tags"
-  id="${tag.id}">
+  th:value="${tag.id}"
+  name="tags">
   <label class="form-check-label me-4" for="${tag.id}" th:text="${tag.name}"></label>
 </div>
 ```
 
+**Sinh checkbox trạng thái Edit, có một số ô check**
+Trường hợp này điều kiện ```post.id > 0``` là true.
+```html
+<div th:if="${post.id > 0}" class="form-check d-inline-flex" th:each="tag : ${allTags}">
+  <input class="form-check-input me-2" type="checkbox" 
+  th:value="${tag.id}"
+  name="tags"
+  th:checked="${#lists.contains(post.tags, tag)}">
+  <label class="form-check-label me-4" for="${tag.id}" th:text="${tag.name}"></label>
+</div>
+```
+
+ Hãy để ý thuộc tính ```th:checked="${#lists.contains(post.tags, tag)}">``` để chọn check box: chúng ta sử dụng hàm có sẵn Thymeleaf ```#lists.contains``` để kiểm danh sách ```post.tags``` có chứa một ```tag``` cụ thể.
+ ![](images/checked_checkbox.jpg)
 ## Validate form
 
 ![](images/field_validation.jpg)
 
-1. Bổ xung đoạn dưới đây vào [pom.xml](pom.xml)
+1. Bổ xung đoạn dưới đây vào [pom.xml](pom.xml) để dùng thư viện spring-boot-starter-validation
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -291,7 +345,7 @@ public class PostRequest {
 @PostMapping("/post")
 public String createEditPostSubmit(@Valid @ModelAttribute("post") PostRequest postRequest, BindingResult bindingResult, Model model, HttpServletRequest request) {
   UserInfo user = authenService.getLoginedUser(request);
-  if (bindingResult.hasErrors()) {
+  if (bindingResult.hasErrors()) {  // Nếu validation lỗi thì bindingResult sẽ có lỗi
     List<Tag> tags = postService.getAllTags();
     model.addAttribute("tags", tags);
     return Route.POST;

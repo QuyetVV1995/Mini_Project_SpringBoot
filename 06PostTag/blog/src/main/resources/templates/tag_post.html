@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="layout_post :: head">
+</head>
+
+<body>
+  <div class="container">
+    <menu th:replace="layout_post :: menu"> </menu>
+
+    <h3 th:text="${tag.name}"></h3>
+
+    <div th:each="post : ${tag.posts}">
+       <p th:text="${post.title}"></p>
+       <a th:href="@{/post/{id}(id=${post.id})}" class="card-link">See more...</a>
+    </div>
+   
+ 
+</body>
+
+</html>

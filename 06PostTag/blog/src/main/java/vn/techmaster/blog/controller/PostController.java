@@ -1,6 +1,5 @@
 package vn.techmaster.blog.controller;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -9,20 +8,14 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import vn.techmaster.blog.DTO.PostMapper;
 import vn.techmaster.blog.DTO.PostPOJO;
@@ -32,7 +25,6 @@ import vn.techmaster.blog.controller.request.CommentRequest;
 import vn.techmaster.blog.controller.request.IdRequest;
 import vn.techmaster.blog.controller.request.PostRequest;
 import vn.techmaster.blog.model.Comment;
-import vn.techmaster.blog.model.FileUploadUtil;
 import vn.techmaster.blog.model.Post;
 import vn.techmaster.blog.model.Tag;
 import vn.techmaster.blog.service.IAuthenService;
@@ -68,7 +60,7 @@ public class PostController {
       model.addAttribute("post", postReqest);
       model.addAttribute("user", user);
       List<Tag> tags = postService.getAllTags();
-      model.addAttribute("tags", tags);
+      model.addAttribute("allTags", tags);
       return Route.POST;
     } else {
       return Route.REDIRECT_HOME;
@@ -76,10 +68,8 @@ public class PostController {
   }
 
   @PostMapping("/post")
-  public String createEditPostSubmit(@Valid @ModelAttribute("post") PostRequest postRequest, 
-   BindingResult bindingResult, Model model, HttpServletRequest request) throws IOException {
+  public String createEditPostSubmit(@Valid @ModelAttribute("post") PostRequest postRequest, BindingResult bindingResult, Model model, HttpServletRequest request) {
     UserInfo user = authenService.getLoginedUser(request);
-   
     if (bindingResult.hasErrors()) {
       List<Tag> tags = postService.getAllTags();
       model.addAttribute("tags", tags);
@@ -89,13 +79,9 @@ public class PostController {
     if (user != null && user.getId() == postRequest.getUser_id()) {
       try {
         if (postRequest.getId() == null) {
-         
           postService.createNewPost(postRequest); //Create
-          
         } else {
-          
           postService.updatePost(postRequest);  //Edit
-          
         }
       } catch (PostException pe) {
         return Route.REDIRECT_HOME;
@@ -114,9 +100,6 @@ public class PostController {
     if (optionalPost.isPresent()) {
       Post post = optionalPost.get();
       PostPOJO postPOJO = PostMapper.INSTANCE.postToPostPOJO(post);
-
-      postPOJO.setContent(markdownToHTML(postPOJO.getContent()));
-
       model.addAttribute("post", postPOJO);
 
       Set<Tag> tags = post.getTags();
@@ -151,7 +134,7 @@ public class PostController {
     return Route.REDIRECT_POSTS;
   }
 
-  //Edit một post
+  //Mở form để edit một post
   @PostMapping("/post/edit")
   public String editPost(@ModelAttribute IdRequest idRequest, Model model, HttpServletRequest request) {
     UserInfo user = authenService.getLoginedUser(request);
@@ -164,24 +147,12 @@ public class PostController {
       
       model.addAttribute("post", postReqest);
       List<Tag> tags = postService.getAllTags();
-      model.addAttribute("tags", tags);
+      model.addAttribute("allTags", tags);
       UserInfo userInfo = UserMapper.INSTANCE.userToUserInfo(post.getUser());
       model.addAttribute("user", userInfo);
-      return "post2.html";
+      return Route.POST;
     } else {
       return Route.REDIRECT_POSTS;
     }   
   }
-
-  private String markdownToHTML(String markdown) {
-    Parser parser = Parser.builder()
-                          .build();
-
-    Node document = parser.parse(markdown);
-    HtmlRenderer renderer = HtmlRenderer.builder()
-                                        .build();
-
-    return renderer.render(document);
-}
-  
 }

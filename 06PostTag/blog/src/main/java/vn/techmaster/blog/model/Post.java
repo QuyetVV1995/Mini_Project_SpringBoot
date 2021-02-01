@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,17 +37,6 @@ public class Post {
     private String title;
     @Column(length=5000)
     private String content;
-
-    @Column(nullable = true, length = 64)
-    private String photos;
-
-    @Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-         
-        return "/post-photos/" + id + "/" + photos;
-    }
-
     private LocalDateTime lastUpdate;
     @PrePersist //Trước khi lưu khi khởi tạo record
     public void prePersist() {

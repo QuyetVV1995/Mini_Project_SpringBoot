@@ -1,6 +1,5 @@
 package vn.techmaster.blog.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,14 @@ import vn.techmaster.blog.repository.TagRepository;
 
 @Service
 public class TagService implements ITagService {
-
+    
     @Autowired
     private TagRepository tagRepository;
 
     @Override
-    public Optional<Tag> findById(Long id){
+    public Optional<Tag> getTagByID(Long id) {
         
-        return tagRepository.findById(id);
+        return tagRepository.findById(id) ;
     }
     
 }

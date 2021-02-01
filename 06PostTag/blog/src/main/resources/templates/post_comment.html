@@ -14,11 +14,7 @@
       <span>Tags: </span>
       <a class="me-2" th:each="tag : ${tags}" th:href="${'/tag/' + tag.id}" th:text="${tag.name}">tag link</a>
     </em>
-    
     <p th:text="${post.content}" class="mt-2"></p>
-
-
-
     <hr>
     <div class="d-flex" th:classappend="${user!=null && user.id==post.user_id ? 'd-inline' : 'd-none'}">
       <form action="#" th:action="@{/post/delete}" method="post" class="me-3">
@@ -47,16 +43,8 @@
     </div>
 
     <blockquote class="blockquote mt-3" th:each="comment: ${comments}">
-      <div class="mb-3  " th:text="${comment.content}"></div>
-
-      <footer class="blockquote-footer"><a href="#" th:text="${comment.user.fullname}"></a>
-        <form  th:action="@{/delete/comment/{id}(id=${comment.id})}"  class="me-3">
-          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-        </form>
-      </footer>
-      <!-- <a  th:href="@{/delete/comment/{id}(id=${comment.id})}"> Delete</a> -->
-      
-     
+      <p class="mb-3  " th:text="${comment.content}"></p>
+      <footer class="blockquote-footer"><a href="#" th:text="${comment.user.fullname}"></a></footer>
     </blockquote>
   </div>
 </body>
