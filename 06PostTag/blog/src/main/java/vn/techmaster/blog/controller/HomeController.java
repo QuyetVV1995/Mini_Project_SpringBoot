@@ -2,11 +2,12 @@ package vn.techmaster.blog.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -28,14 +29,22 @@ public class HomeController {
   public static final String LOGIN_REQUEST = "loginRequest";
   
 
-  @GetMapping("/")
-  public String home(Model model, HttpServletRequest request) {
+  @GetMapping(value = {"/", "/{page}"})
+  public String home(@PathVariable(value="page", required = false) Integer page, Model model, HttpServletRequest request) {
     UserInfo user = authenService.getLoginedUser(request);    
     if (user != null) {  //Người dùng đã login      
       model.addAttribute("user", user);
     }
-    List<Post> allPosts = postService.findAll();
-    model.addAttribute("posts", allPosts);    
+    if (page == null) {
+      page = 0;
+    }
+    Page<Post> pagePosts = postService.findAllPaging(page, 10); //Mỗi page 10 Post
+
+    List<Post> posts = pagePosts.getContent();
+    model.addAttribute("posts", posts);
+    //Sinh ra cấu trúc dữ liệu phân trang
+    List<Paging> pagings = Paging.generatePages(page, pagePosts.getTotalPages());
+    model.addAttribute("pagings", pagings);
     return Route.HOME;
   }
 

@@ -1,6 +1,5 @@
 package vn.techmaster.blog.controller;
 
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,12 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import vn.techmaster.blog.DTO.UserInfo;
 import vn.techmaster.blog.controller.request.CommentRequest;
-import vn.techmaster.blog.model.Comment;
-import vn.techmaster.blog.service.CommentService;
 import vn.techmaster.blog.service.IAuthenService;
 import vn.techmaster.blog.service.ICommentService;
 import vn.techmaster.blog.service.IPostService;

@@ -2,15 +2,22 @@ package vn.techmaster.blog.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import com.thedeanda.lorem.Lorem;
+import com.thedeanda.lorem.LoremIpsum;
 
 import org.hibernate.CacheMode;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import vn.techmaster.blog.DTO.PostMapper;
@@ -127,5 +134,46 @@ public class PostService implements IPostService {
     .threadsToLoadObjects(5)
     .cacheMode(CacheMode.IGNORE);
     indexer.start();    
+  }
+
+  @Override
+  @Transactional
+  public void generateSampleData() {
+    List<User> users = userRepo.findAll();
+    List<Tag> tags = tagRepo.findAll();
+
+    int numberOfTags = tags.size();
+    int maxTagsPerPost = numberOfTags / 3;
+
+    Lorem lorem = LoremIpsum.getInstance();
+    
+    Random random = new Random();
+    int numberOfUsers = users.size();
+    for (int k = 0; k < 200; k++) {
+      User user = users.get(random.nextInt(numberOfUsers));
+      Post post = new Post(lorem.getTitle(2, 5), lorem.getParagraphs(2, 4));
+      
+      int numberOfComments = random.nextInt(numberOfUsers/2);
+      for (int j = 0; j < numberOfComments; j++) {
+        User commenter = users.get(random.nextInt(numberOfUsers));
+        Comment comment = new Comment(lorem.getParagraphs(1, 1));
+        comment.setUser(commenter);
+        post.addComment(comment);
+      }
+
+      int numberTagsForPost = Math.max(1, random.nextInt(maxTagsPerPost));
+      for (int i = 0; i < numberTagsForPost; i++) {
+        post.addTag(tags.get(random.nextInt(numberOfTags)));
+      }
+     
+      user.addPost(post);
+      postRepo.save(post);
+    }
+    userRepo.flush();
+  }
+
+  @Override
+  public Page<Post> findAllPaging(int page, int pageSize) {
+    return postRepo.findAll(PageRequest.of(page, pageSize)); // Bổ xung pagination vào đây !
   }
 }
