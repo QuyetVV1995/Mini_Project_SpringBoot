@@ -22,6 +22,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,12 +34,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Indexed //Thêm annotation này báo cho Hibernate Search đánh chỉ mục bảng này
 public class Post { 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @FullTextField
     private String title;
+
+    @FullTextField
     @Column(length=5000)
     private String content;
+    
     private LocalDateTime lastUpdate;
     @PrePersist //Trước khi lưu khi khởi tạo record
     public void prePersist() {

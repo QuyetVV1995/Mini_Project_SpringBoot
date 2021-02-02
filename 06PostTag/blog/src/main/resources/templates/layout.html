@@ -13,6 +13,7 @@
     <a href="/" class="me-4">Home</a>
     <a href="/login" class="me-4" th:style="${user==null ? 'display:inline' : 'display:none'}">Login</a>
     <a href="/post" class="me-4" th:style="${user==null ? 'display:none' : 'display:inline'}">Write a post</a>
+    <a href="/search" class="me-4" style="display:inline">Search</a>
     <a href="/logout" class="me-4" th:style="${user==null ? 'display:none' : 'display:inline'}" th:text="${user!=null ? 'Log out as ' + user.fullname : ''}">Logout</a><br>
   </div> 
 </body>

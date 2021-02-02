@@ -8,4 +8,6 @@ public class Route {
   public static final String ALLPOSTS = "posts.html";
   public static final String POST = "post.html";
   public static final String POST_COMMENT = "post_comment.html";
+  public static final String SEARCH = "search";
+  public static final String SEARCH_RESULT = "searchResult";
 }

@@ -20,4 +20,6 @@ public interface IPostService {
   public void addComment(CommentRequest commentRequest, long user_id) throws PostException;
 
   public List<Tag> getAllTags();
+  public List<Post> searchPost(String terms, int limit, int offset);
+  public void reindexFullText();
 }
