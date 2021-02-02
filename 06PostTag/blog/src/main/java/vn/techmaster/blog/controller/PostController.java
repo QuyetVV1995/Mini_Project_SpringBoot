@@ -30,6 +30,8 @@ import vn.techmaster.blog.model.Tag;
 import vn.techmaster.blog.service.IAuthenService;
 import vn.techmaster.blog.service.IPostService;
 import vn.techmaster.blog.service.PostException;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -155,4 +157,20 @@ public class PostController {
       return Route.REDIRECT_POSTS;
     }   
   }
+
+
+  @GetMapping(value="/post/user/{id}")
+  public String getAllPostByUserID(@PathVariable("id") long id, Model model, HttpServletRequest request) {
+    UserInfo user = authenService.getLoginedUser(request);
+    if(user != null){
+      List<Post>  listPost = postService.getAllPostsByUserID(id);
+      model.addAttribute("listPost", listPost);
+      model.addAttribute("user", user);
+      return "getPostByUserId";
+    }else{
+      return Route.REDIRECT_HOME;
+    }
+     
+  }
+  
 }

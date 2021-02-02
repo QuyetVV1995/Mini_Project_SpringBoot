@@ -44,7 +44,7 @@
 
     <blockquote class="blockquote mt-3" th:each="comment: ${comments}">
       <p class="mb-3  " th:text="${comment.content}"></p>
-      <footer class="blockquote-footer"><a href="#" th:text="${comment.user.fullname}"></a></footer>
+      <footer class="blockquote-footer"><a th:href="@{/post/user/{id}(id=${comment.user.id})}" th:text="${comment.user.fullname}"></a></footer>
       <div th:if="${comment.user.id} == ${user.id}">
          <a th:href="@{/comment/delete/{id}(id=${comment.id})}">Delete comment</a>
       </div>
