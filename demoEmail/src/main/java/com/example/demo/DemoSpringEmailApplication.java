@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import javax.mail.MessagingException;
+
 @SpringBootApplication
 public class DemoSpringEmailApplication {
 
@@ -18,7 +20,25 @@ public class DemoSpringEmailApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void triggerWhenStart(){
-		sendEmailService.sendEmail("ducvan95ubqn@gmail.com","test spring boot mail", "email");
+//		sendEmailService.sendEmail("ducvan95ubqn@gmail.com","test spring boot mail", "email");
+//
+//		try {
+//			sendEmailService.sendEmailAttachImage();
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+//
+//		try {
+//			sendEmailService.sendHtmlEmail();
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+
+		try {
+			sendEmailService.sendTemplateEmail();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
