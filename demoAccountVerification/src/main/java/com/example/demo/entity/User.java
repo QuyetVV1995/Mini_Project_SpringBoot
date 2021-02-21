@@ -24,7 +24,18 @@ public class User {
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     private boolean enabled;
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
 
     public String getVerificationCode() {
         return verificationCode;

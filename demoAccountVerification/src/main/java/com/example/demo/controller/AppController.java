@@ -24,7 +24,7 @@ public class AppController {
     @Autowired
     private UserServices service;
 
-    @GetMapping("")
+    @GetMapping("/")
     public String viewHomePage() {
         return "index";
     }
@@ -62,5 +62,10 @@ public class AppController {
         } else {
             return "verify_fail";
         }
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }

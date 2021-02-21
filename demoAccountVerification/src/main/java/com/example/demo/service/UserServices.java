@@ -6,6 +6,8 @@ import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 public class UserServices {
 
     @Autowired
-    private UserRepository repo;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,7 +37,7 @@ public class UserServices {
         user.setVerificationCode(randomCode);
         user.setEnabled(false);
 
-        repo.save(user);
+        userRepository.save(user);
 
         sendVerificationEmail(user, siteURL);
     }
@@ -44,7 +46,7 @@ public class UserServices {
             throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "quyeta2ubqn@gmail.com";
-        String senderName = "HUST";
+        String senderName = "Spring boot";
         String subject = "Please verify your registration";
         String content = "Dear [[name]],<br>"
                 + "Please click the link below to verify your registration:<br>"
@@ -67,22 +69,43 @@ public class UserServices {
         helper.setText(content, true);
 
         mailSender.send(message);
-
     }
 
     public boolean verify(String verificationCode) {
-        User user = repo.findByVerificationCode(verificationCode);
+        User user = userRepository.findByVerificationCode(verificationCode);
 
         if (user == null || user.isEnabled()) {
             return false;
         } else {
             user.setVerificationCode(null);
             user.setEnabled(true);
-            repo.save(user);
+            userRepository.save(user);
 
             return true;
         }
-
     }
 
+
+    // forgot password
+    public void updateResetPasswordToken(String token, String email) throws UsernameNotFoundException{
+        User user = userRepository.findByEmail(email);
+        if(user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("Could not find any customer with the email" + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token){
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(User user, String newPassword){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encoderPassword =  passwordEncoder.encode(newPassword);
+        user.setPassword(encoderPassword);
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
 }
