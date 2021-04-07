@@ -7,20 +7,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let user of users">
-    <ion-item>
-      <ion-avatar item-start>
-        <img [src]="user.picture.medium">
-      </ion-avatar>
-      <h2 text-capitalize>{{ user.name?.first }} {{ user.name?.last }}</h2>
-    </ion-item>
-    <ion-card-content>
-      {{ user.email }}
-    </ion-card-content>
-  </ion-card>
-
-  <ion-infinite-scroll (ionInfinite)="loadMore($event)" loadingSpinner="bubbles" loadingText="Loading Users...">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
+  <ion-virtual-scroll [items]="items" approxItemHeight="320px">
+    <ion-card *virtualItem="let item; let itemBounds = bounds;">
+      <div>
+        <ion-img [src]="item.imgSrc"  [alt]="item.name"></ion-img>
+      </div>
+    <ion-card-header>
+      <ion-card-title>{{ item.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{ item.content }}</ion-card-content>
+    </ion-card>
+  </ion-virtual-scroll>
 </ion-content>
