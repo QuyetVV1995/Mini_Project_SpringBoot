@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ecommerce-fd89b": {
+      "hosting": {
+        "app": [
+          "ecommerce-fd89b"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "devdacticShop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
