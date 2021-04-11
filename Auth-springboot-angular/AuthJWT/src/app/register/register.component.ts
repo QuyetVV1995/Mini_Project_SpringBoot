@@ -6,6 +6,7 @@ import { AuthService } from '../_services/auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
+// This component binds form data (username, email, password) from template to AuthService.register() method that returns an Observable object
 export class RegisterComponent implements OnInit {
   form: any = {
     username: null,

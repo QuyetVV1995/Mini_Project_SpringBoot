@@ -1,10 +1,16 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,7 +19,10 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
+@Data
 public class User {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,10 +44,48 @@ public class User {
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
+    //Một User viết nhiều Post
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private List<Post> posts = new ArrayList<>();
+    public void addPost(Post post) {
+        posts.add(post);
+        post.setUser(this);
     }
+
+    public void removePost(Post post) {
+        posts.remove(post);
+        post.setUser(null);
+    }
+
+    //Một User viết nhiều Comment
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+        comment.setUser(null);
+    }
+
+    @JoinColumn(name = "user_id")
+    public void getComments(Comment comment){
+        comments.add(comment);
+        comment.setUser(this);
+    }
+
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -84,5 +131,18 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public User(Long id, @NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(max = 120) String password, Set<Role> roles, List<Post> posts, List<Comment> comments) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.posts = posts;
+        this.comments = comments;
+    }
+
+    public User() {
     }
 }

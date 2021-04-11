@@ -17,6 +17,8 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
+//    Tạo class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint.
+//            Method commence của class này sẽ được thực thi nếu xác thực hoặc kiểm tra quyền không thành công.
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {

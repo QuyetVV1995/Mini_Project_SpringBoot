@@ -17,6 +17,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
+
+//Mỗi khi có request, lớp lọc này sẽ được thực thi. Nó có nhiệm vụ kiểm tra trong request đến có chứa token JWT hợp lệ không?
+//   Nếu hợp lệ thì tạo object Authentication chứa thông tin principal hiện tại lưu vào SecurityContext
+//  → Xác thực thành công.
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
@@ -26,6 +30,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+//    What we do inside doFilterInternal():
+//            – get JWT from the Authorization header (by removing Bearer prefix)
+//            – if the request has JWT, validate it, parse username from it
+//            – from username, get UserDetails to create an Authentication object
+//            – set the current UserDetails in SecurityContext using setAuthentication(authentication) method.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -45,6 +54,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             logger.error("Cannot set user authentication: {}", e);
         }
 
+        //filterChain.doFilter(httpServletRequest, httpServletResponse) chuyển sang lớp lọc tiếp theo nếu có.
+        // Nếu không thì bắt đầu kiểm tra quyền.
         filterChain.doFilter(request, response);
     }
 

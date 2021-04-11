@@ -25,6 +25,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    //convert Set<Role> into List<GrantedAuthority>.
+    // It is important to work with Spring Security and Authentication object later.
     public UserDetailsImpl(Long id, String username, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
