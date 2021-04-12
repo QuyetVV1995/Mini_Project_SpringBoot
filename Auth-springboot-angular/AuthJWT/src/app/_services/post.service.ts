@@ -9,6 +9,7 @@ import { Post } from '../model/post';
 export class PostService {
 
   private baseURL = "http://localhost:8080";
+  private allPostURL = 'http://localhost:8080/allPostOfUser';
 
   constructor(
     private http: HttpClient,
@@ -17,5 +18,9 @@ export class PostService {
 
   getPostById(postId: number): Observable<Post>{
     return this.http.get<Post>(`${this.baseURL}/post-detail/${postId}`);
+  }
+
+  getAllPostByUserId(userId: number): Observable<Post[]>{
+    return this.http.get<Post[]>(`${this.allPostURL}/${userId}`);
   }
 }

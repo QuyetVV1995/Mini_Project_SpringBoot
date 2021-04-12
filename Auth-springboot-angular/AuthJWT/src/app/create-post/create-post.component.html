@@ -1,0 +1,24 @@
+<div class="col-md-6 offset-md-3">
+    <h1>Create Post </h1>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+          <label> Title</label>
+          <input type="text" class="form-control"
+            id="title" [(ngModel)]="post.title" name="title">
+        
+            <label>Tags</label>
+            <div class="custom-control custom-checkbox" *ngFor="let tag of tags">
+                <input type="checkbox">
+                <label class="custom-control-label"> {{tag.name}} </label>
+            </div>
+
+            <label> Content</label>
+            <input type="text" class="form-control"
+            id="content" [(ngModel)]="post.content" name="content">
+      </div>
+  
+      <button class="btn btn-success" type="submit">Create</button>
+    </form>
+  </div>
+  
