@@ -10,14 +10,19 @@
           </div>
           <div class="card-body">
             <h5 class="card-title"> {{post.title}} </h5>
-            <p>Author: {{post.user.username}}</p>
+            <p>Author: {{post.user?.username}}</p>
             <p class="card-text">
               {{post.content }}
             </p>
 
-            <div *ngIf="post.comments.length > 0">
+            <div *ngIf="post.comments?.length > 0">
                 <span *ngFor="let cmt of post.comments">
-                    <p class="text-justify"> {{cmt.content}} - {{cmt.user.username}} </p>
+                    
+                    <div class="text-justify"> {{cmt.content}} - {{cmt.user.username}}
+                      <span *ngIf="cmt.user.username === user.username"> 
+                        <button (click)="deleteComment(cmt.id)" class=" btn-danger" style="margin-left: 10px;" ><i class="fas fa-trash"></i> </button>
+                       </span>            
+                    </div>
                 </span>
             </div>
 

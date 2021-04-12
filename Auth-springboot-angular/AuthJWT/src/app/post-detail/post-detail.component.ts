@@ -39,21 +39,27 @@ export class PostDetailComponent implements OnInit {
     this.isLogin = !!this.user.id;
   }
 
-  onSubmit(postId: number){
-    this.saveComment(postId);
+  onSubmit(){
+    this.saveComment();
   }
 
-  private saveComment(postId: number){
-    this.commentService.createComment(this.newComment, postId, this.user.id).subscribe(data => {
-      this.gotoPostDetail(postId);
-      console.log('gotopostdetail');
-
+  private saveComment(){
+    this.commentService.createComment(this.newComment, this.post.id, this.user.id).subscribe(data => {
+      this.gotoPostDetail();
     }),
     error => console.log(error);
   }
 
-  gotoPostDetail(postId: number){
-    this.router.navigate(['/post-detail', postId]);
+  gotoPostDetail(){
+    console.log(this.post.id);
+    this.router.navigate(['post-detail', this.post.id]);
+  }
+
+  deleteComment(commentId: number){
+    this.commentService.deleteComment(commentId, this.post.id).subscribe(data => {
+      this.gotoPostDetail();
+    }),
+    error => console.log(error);
   }
 
 }

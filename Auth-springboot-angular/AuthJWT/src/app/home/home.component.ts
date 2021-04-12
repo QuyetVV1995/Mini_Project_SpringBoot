@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../model/post';
+import { PostService } from '../_services/post.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   postList?: Post[];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+    private postService: PostService
+    ) { }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe(
