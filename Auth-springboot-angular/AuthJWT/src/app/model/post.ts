@@ -8,5 +8,5 @@ export class Post {
     create_at: Date;
     comments: Comment;
     user: User;
-    tag: Tag;
+    tag: Tag[];
 }

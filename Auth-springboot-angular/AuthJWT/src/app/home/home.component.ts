@@ -19,7 +19,6 @@ export class HomeComponent implements OnInit {
     this.userService.getPublicContent().subscribe(
       data => {
         this.postList = JSON.parse(data) as Post[];
-        console.log(data);
       },
       err => {
         this.postList = JSON.parse(err.error).message;

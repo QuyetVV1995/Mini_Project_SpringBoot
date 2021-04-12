@@ -23,4 +23,8 @@ export class PostService {
   getAllPostByUserId(userId: number): Observable<Post[]>{
     return this.http.get<Post[]>(`${this.allPostURL}/${userId}`);
   }
+
+  createPost(post: Post): Observable<Object>{
+    return this.http.post(`${this.baseURL}/create-post`, post);
+  }
 }

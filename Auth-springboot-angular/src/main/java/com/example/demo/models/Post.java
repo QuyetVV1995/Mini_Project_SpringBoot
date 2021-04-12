@@ -30,7 +30,7 @@ public class Post {
 
     private LocalDate create_at;
 
-    public Post(String title, String content, Set<Tag> tags) {
+    public Post(String title, String content, List<Tag> tags) {
         this.title = title;
         this.content = content;
         this.tags = tags;
@@ -68,7 +68,7 @@ public class Post {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<Tag> tags = new HashSet<>();
+    private List<Tag> tags = new ArrayList<>();
 
     public void addTag(Tag tag) {
         tags.add(tag);
@@ -129,18 +129,18 @@ public class Post {
         this.user = user;
     }
 
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
     public Post() {
     }
 
-    public Post(Long id, String title, String content, LocalDate create_at, List<Comment> comments, User user, Set<Tag> tags) {
+    public Post(Long id, String title, String content, LocalDate create_at, List<Comment> comments, User user, List<Tag> tags) {
         this.id = id;
         this.title = title;
         this.content = content;
