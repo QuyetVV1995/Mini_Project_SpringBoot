@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Post } from '../model/post';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -7,17 +8,18 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  content?: string;
+  postList?: Post[];
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe(
       data => {
-        this.content = data;
+        this.postList = JSON.parse(data) as Post[];
+        console.log(data);
       },
       err => {
-        this.content = JSON.parse(err.error).message;
+        this.postList = JSON.parse(err.error).message;
       }
     );
   }

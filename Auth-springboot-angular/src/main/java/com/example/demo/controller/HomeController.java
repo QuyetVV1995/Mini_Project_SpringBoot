@@ -5,16 +5,12 @@ import com.example.demo.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/test")
 public class HomeController {
     @Autowired
     private PostRepository postRepository;
@@ -23,6 +19,12 @@ public class HomeController {
     public ResponseEntity<List<Post>> allAccess() {
         List<Post> posts = postRepository.findAll();
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping(value = "/post-detail/{id}", produces = "application/json")
+    public ResponseEntity<Post> getPostByID(@PathVariable Long id){
+        Post post = postRepository.findById(id).get();
+        return ResponseEntity.ok(post);
     }
 
     @GetMapping("/user")
@@ -42,4 +44,6 @@ public class HomeController {
     public String adminAccess() {
         return "Admin Board.";
     }
+
+
 }
