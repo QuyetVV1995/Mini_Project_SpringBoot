@@ -36,13 +36,13 @@ public class HomeController {
     @GetMapping("/mod")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public String moderatorAccess() {
-        return "Moderator Board.";
+        return "Page for Writer.";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return "Admin Dashboard.";
     }
 
 
