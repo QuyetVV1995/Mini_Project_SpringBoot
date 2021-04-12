@@ -52,6 +52,9 @@ export class PostDetailComponent implements OnInit {
 
   gotoPostDetail(){
     console.log(this.post.id);
+    this.postService.getPostById(this.id).subscribe(data => {
+      this.post = data;      
+    });
     this.router.navigate(['post-detail', this.post.id]);
   }
 

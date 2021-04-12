@@ -50,8 +50,14 @@ public class CommentController {
         Post post = postRepository.findById(postId).get();
         Comment comment = commentRepository.findById(commentId).get();
         if(post != null){
-           post.removeComment(comment);
-           commentRepository.deleteById(commentId);
+            if(comment != null){
+                post.removeComment(comment);
+                commentRepository.deleteById(commentId);
+            }
+            else{
+            }
+        }else{
+
         }
         return ResponseEntity.ok(post);
     }
