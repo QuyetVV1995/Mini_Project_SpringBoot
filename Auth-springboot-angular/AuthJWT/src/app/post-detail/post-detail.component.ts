@@ -20,6 +20,8 @@ export class PostDetailComponent implements OnInit {
   isLogin = false;
   comments: Comment[];
   newComment: Comment = new Comment();
+  editComment: Comment = new Comment();
+  isEdit = false;
 
   constructor(
     private postService: PostService,
@@ -51,7 +53,6 @@ export class PostDetailComponent implements OnInit {
   }
 
   gotoPostDetail(){
-    console.log(this.post.id);
     this.postService.getPostById(this.id).subscribe(data => {
       this.post = data;      
     });
@@ -63,6 +64,21 @@ export class PostDetailComponent implements OnInit {
       this.gotoPostDetail();
     }),
     error => console.log(error);
+  }
+
+  onEditSubmit(commentId: number){
+    this.updateComment(commentId);
+  }
+
+  updateComment(commentId: number){
+    this.commentService.editComment(commentId, this.editComment).subscribe(data => {
+      this.gotoPostDetail();
+    }),
+    error => console.log(error);
+  }
+
+  toggleEdit(){
+    this.isEdit = !this.isEdit; 
   }
 
 }
