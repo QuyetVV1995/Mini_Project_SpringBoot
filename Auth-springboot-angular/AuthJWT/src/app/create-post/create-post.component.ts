@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Comment } from '../model/comment';
 
 import { Post } from '../model/post';
 import { Tag } from '../model/tag';
@@ -8,6 +9,7 @@ import { User } from '../model/user';
 import { PostService } from '../_services/post.service';
 import { TagService } from '../_services/tag.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-create-post',
@@ -19,6 +21,8 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
+  private _comments: Comment = new Comment(1, 'abc');
+
   constructor(
     private tagService: TagService,
     private tokenStoreService: TokenStorageService,
@@ -31,6 +35,7 @@ export class CreatePostComponent implements OnInit {
       this.tags = data;
     });
     this.post.tag = [];
+
     this.user = this.tokenStoreService.getUser();
   }
 
@@ -46,8 +51,9 @@ export class CreatePostComponent implements OnInit {
 
   createPost(){
     this.postService.createPost(this.post).subscribe(() => {
-      console.log(this.post);
+     
       this.gotoManagePost();
+      console.log(this.post);
     });
   }
 

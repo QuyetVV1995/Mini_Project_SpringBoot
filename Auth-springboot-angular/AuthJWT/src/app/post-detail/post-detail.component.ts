@@ -19,8 +19,8 @@ export class PostDetailComponent implements OnInit {
   user: User = new User();
   isLogin = false;
   comments: Comment[];
-  newComment: Comment = new Comment();
-  editComment: Comment = new Comment();
+  newComment: Comment ;
+  editComment: Comment ;
   isEdit = false;
 
   constructor(

@@ -1,4 +1,10 @@
 export class Comment {
-    id: number;
-    content: string;
+    
+
+    constructor(
+       public id: number,
+       public content: string,
+    ){
+
+    }
 }

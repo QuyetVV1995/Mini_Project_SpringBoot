@@ -35,7 +35,6 @@ public class PostController {
 
     @PostMapping(value = "/create-post", produces={"application/json"})
     public ResponseEntity<?> createPost(@RequestBody Post post){
-        System.out.println(post.getTags());
-        return null;
+        return ResponseEntity.ok(postRepository.save(post));
     }
 }

@@ -6,7 +6,7 @@ export class Post {
     title: string;
     content: string;
     create_at: Date;
-    comments: Comment;
+    comments: Comment[];
     user: User;
     tag: Tag[];
 }

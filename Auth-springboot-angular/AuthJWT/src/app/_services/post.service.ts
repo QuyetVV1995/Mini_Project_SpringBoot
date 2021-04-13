@@ -25,6 +25,12 @@ export class PostService {
   }
 
   createPost(post: Post): Observable<Object>{
-    return this.http.post(`${this.baseURL}/create-post`, post);
+    return this.http.post(`${this.baseURL}/create-post`,  {
+      title: post.title,
+      content: post.content,
+      create_at: post.create_at,
+      tags: post.tag,
+      user: post.user
+    });
   }
 }
