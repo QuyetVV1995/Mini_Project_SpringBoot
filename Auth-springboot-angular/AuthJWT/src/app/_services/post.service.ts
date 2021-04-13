@@ -9,7 +9,6 @@ import { Post } from '../model/post';
 export class PostService {
 
   private baseURL = "http://localhost:8080";
-  private allPostURL = 'http://localhost:8080/allPostOfUser';
 
   constructor(
     private http: HttpClient,
@@ -17,15 +16,15 @@ export class PostService {
   ) { }
 
   getPostById(postId: number): Observable<Post>{
-    return this.http.get<Post>(`${this.baseURL}/post-detail/${postId}`);
+    return this.http.get<Post>(`${this.baseURL}/post/detail/${postId}`);
   }
 
   getAllPostByUserId(userId: number): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.allPostURL}/${userId}`);
+    return this.http.get<Post[]>(`${this.baseURL}/post/allPost/${userId}`);
   }
 
   createPost(post: Post): Observable<Object>{
-    return this.http.post(`${this.baseURL}/create-post`,  {
+    return this.http.post(`${this.baseURL}/post/create`,  {
       title: post.title,
       content: post.content,
       create_at: post.create_at,
@@ -33,4 +32,13 @@ export class PostService {
       user: post.user
     });
   }
+
+  updatePostById(postId: number, post: Post): Observable<Object>{
+    return this.http.put(`${this.baseURL}/post/edit/${postId}`, {
+      title: post.title,
+      content: post.content,
+      tags: post.tag
+    });
+  }
+
 }

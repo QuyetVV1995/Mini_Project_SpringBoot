@@ -21,11 +21,7 @@ public class HomeController {
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping(value = "/post-detail/{id}", produces = "application/json")
-    public ResponseEntity<Post> getPostByID(@PathVariable Long id){
-        Post post = postRepository.findById(id).get();
-        return ResponseEntity.ok(post);
-    }
+
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

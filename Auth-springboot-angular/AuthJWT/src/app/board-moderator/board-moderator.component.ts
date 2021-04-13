@@ -36,4 +36,8 @@ export class BoardModeratorComponent implements OnInit {
     this.router.navigate(['create-post']);
   }
 
+  onEditPost(postId: number){
+    this.router.navigate(['edit-post', postId]);
+  }
+
 }

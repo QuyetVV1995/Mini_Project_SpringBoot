@@ -9,6 +9,7 @@
         <th scope="col">Title</th>
         <th scope="col">Content</th>
         <th scope="col">Created</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -17,6 +18,10 @@
         <td scope="row">{{post.title}}</td>
         <td scope="row">{{post.content}}</td>
         <td scope="row">{{post.create_at}}</td>
+        <td>
+          <button class=" btn-info" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>
+          <!-- <button (click)="deletePost(cmt.id)" class=" btn-danger" style="margin-left: 10px;" ><i class="fas fa-trash"></i> </button> -->
+        </td>
       </tr>
     </tbody>
   </table>

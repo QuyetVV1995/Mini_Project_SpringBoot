@@ -4,6 +4,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'post-detail/:id', component: PostDetailComponent},
-  { path: 'create-post', component: CreatePostComponent}
+  { path: 'create-post', component: CreatePostComponent},
+  { path: 'edit-post/:id', component: EditPostComponent}
 ];
 
 @NgModule({

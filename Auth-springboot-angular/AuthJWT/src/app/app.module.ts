@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CreatePostComponent } from './create-post/create-post.component';
     BoardModeratorComponent,
     BoardUserComponent,
     PostDetailComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,

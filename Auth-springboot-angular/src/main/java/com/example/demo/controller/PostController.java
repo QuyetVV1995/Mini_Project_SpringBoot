@@ -15,6 +15,7 @@ import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/post/")
 public class PostController {
 
     @Autowired
@@ -22,19 +23,40 @@ public class PostController {
     @Autowired
     private TagRepository tagRepository;
 
-    @GetMapping(value = "/allPostOfUser/{userId}", produces = "application/json")
+    @GetMapping(value = "/allPost/{userId}", produces = "application/json")
     public ResponseEntity<List<Post>> getAllPostByUser(@PathVariable Long userId){
         List<Post> posts =  postRepository.findByUserId(userId);
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping(value = "/getAllTag", produces = "application/json")
+    @GetMapping(value = "/getTag", produces = "application/json")
     public ResponseEntity<List<Tag>> getAllTag(){
         return ResponseEntity.ok(tagRepository.findAll());
     }
 
-    @PostMapping(value = "/create-post", produces={"application/json"})
+    @PostMapping(value = "/create", produces={"application/json"})
     public ResponseEntity<?> createPost(@RequestBody Post post){
         return ResponseEntity.ok(postRepository.save(post));
     }
+
+    @GetMapping(value = "/detail/{id}", produces = "application/json")
+    public ResponseEntity<Post> getPostByID(@PathVariable Long id){
+        Post post = postRepository.findById(id).get();
+        return ResponseEntity.ok(post);
+    }
+
+    @PutMapping(value = "/edit/{id}", produces = "application/json")
+    public ResponseEntity<Post> editPostById(@PathVariable Long id, @RequestBody Post updatePost){
+        Post post = postRepository.findById(id).get();
+        if(post != null){
+            post.setTitle(updatePost.getTitle());
+            post.setContent(updatePost.getContent());
+            post.setTags(updatePost.getTags());
+            return ResponseEntity.ok(postRepository.save(post));
+        }else{
+            return ResponseEntity.ok(postRepository.save(post));
+        }
+
+    }
+
 }

@@ -21,7 +21,6 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
-  private _comments: Comment = new Comment(1, 'abc');
 
   constructor(
     private tagService: TagService,

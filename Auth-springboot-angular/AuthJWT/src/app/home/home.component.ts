@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe(
       data => {
-        this.postList = JSON.parse(data) as Post[];
+        this.postList = JSON.parse(data);
       },
       err => {
         this.postList = JSON.parse(err.error).message;

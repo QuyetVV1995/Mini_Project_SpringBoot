@@ -16,16 +16,16 @@
             </p>
 
             <div *ngIf="post.comments?.length > 0">
-                <span *ngFor="let cmt of post.comments">
+                <span *ngFor="let comment of post.comments">
                     
-                    <div class="text-justify"> {{cmt.content}} - {{cmt.user.username}}
-                      <span *ngIf="cmt.user.username === user.username"> 
+                    <div class="text-justify"> {{comment.content}} - {{comment.user.username}}
+                      <span *ngIf="comment.user.username === user.username"> 
 
                         <button class=" btn-info" (click)="toggleEdit()"><i class="far fa-edit"></i></button>
-                        <button (click)="deleteComment(cmt.id)" class=" btn-danger" style="margin-left: 10px;" ><i class="fas fa-trash"></i> </button>
+                        <button (click)="deleteComment(comment.id)" class=" btn-danger" style="margin-left: 10px;" ><i class="fas fa-trash"></i> </button>
 
                         <div *ngIf="isEdit">
-                          <form (ngSubmit)="onEditSubmit(cmt.id)">
+                          <form (ngSubmit)="onEditSubmit(comment.id)">
                             <input type="text" class="form-control"
                             id="content" [(ngModel)]="editComment.content" name="content">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -41,7 +41,7 @@
                 <p *ngIf="!isLogin"> Dang nhap de binh luan</p>
             </div>
             <div *ngIf="isLogin">
-                <form (ngSubmit)="onSubmit(post.id)">
+                <form (ngSubmit)="onSubmit()">
                     <input type="text" class="form-control"
                     id="content" [(ngModel)]="newComment.content" name="content">
                     <button type="submit" class="btn btn-primary">Save comments</button>

@@ -15,6 +15,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/comment")
 public class CommentController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class CommentController {
     private CommentRepository commentRepository;
 
 
-    @PostMapping(value = "/new-comment/{postId}/{userId}", produces={"application/json"})
+    @PostMapping(value = "/create/{postId}/{userId}", produces={"application/json"})
     public ResponseEntity<Post> createComment(@RequestBody Comment comment, @PathVariable Long postId, @PathVariable Long userId){
         Post post = postRepository.findById(postId).get();
         User user = userRepository.findById(userId).get();
@@ -45,7 +46,7 @@ public class CommentController {
         return ResponseEntity.ok(post);
     }
 
-    @PutMapping(value = "comment/edit/{commentId}", produces = "application/json")
+    @PutMapping(value = "/edit/{commentId}", produces = "application/json")
     public ResponseEntity<Comment> editCommentById(@PathVariable Long commentId, @RequestBody Comment editComment){
         Comment comment = commentRepository.findById(commentId).get();
         comment.setContent(editComment.getContent());
@@ -53,7 +54,7 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
-    @DeleteMapping(value = "comment/delete/{postId}/{commentId}", produces = "application/json")
+    @DeleteMapping(value = "/delete/{postId}/{commentId}", produces = "application/json")
     public ResponseEntity<Post> deleteCommentByID(@PathVariable Long postId, @PathVariable Long commentId){
         Post post = postRepository.findById(postId).get();
         Comment comment = commentRepository.findById(commentId).get();

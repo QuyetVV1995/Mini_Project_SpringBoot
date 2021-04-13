@@ -8,7 +8,7 @@ import { Tag } from '../model/tag';
 })
 export class TagService {
 
-  private allTagURL = 'http://localhost:8080/getAllTag';
+  private allTagURL = 'http://localhost:8080/post/getTag';
   tags : Tag[];
 
   constructor(
