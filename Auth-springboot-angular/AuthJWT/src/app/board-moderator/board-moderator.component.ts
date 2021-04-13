@@ -40,4 +40,17 @@ export class BoardModeratorComponent implements OnInit {
     this.router.navigate(['edit-post', postId]);
   }
 
+  deletePost(postId: number){
+    this.postService.deletePostById(postId).subscribe(() => {
+      this.gotoManagePost();
+    });
+  }
+
+  gotoManagePost(){
+    this.postService.getAllPostByUserId(this.user.id).subscribe(data => {
+      this.posts = data;
+    });
+    this.router.navigate(['post']);
+  }
+
 }

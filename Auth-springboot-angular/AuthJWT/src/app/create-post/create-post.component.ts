@@ -52,7 +52,6 @@ export class CreatePostComponent implements OnInit {
     this.postService.createPost(this.post).subscribe(() => {
      
       this.gotoManagePost();
-      console.log(this.post);
     });
   }
 

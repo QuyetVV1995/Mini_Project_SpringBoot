@@ -41,4 +41,8 @@ export class PostService {
     });
   }
 
+  deletePostById(postId: number): Observable<Object>{
+    return this.http.delete(`${this.baseURL}/post/delete/${postId}`);
+  }
+
 }

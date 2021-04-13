@@ -56,7 +56,12 @@ public class PostController {
         }else{
             return ResponseEntity.ok(postRepository.save(post));
         }
+    }
 
+    @DeleteMapping(value = "/delete/{id}", produces = "application/json")
+    public ResponseEntity<?> deletePostById(@PathVariable Long id){
+        postRepository.deleteById(id);
+        return ResponseEntity.ok(200);
     }
 
 }
