@@ -18,6 +18,7 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { AdminPostComponent } from './admin/post/post.component';
+import { AccountComponent } from './admin/account/account.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AdminPostComponent } from './admin/post/post.component';
     CreatePostComponent,
     EditPostComponent,
     AdminPostComponent,
+    AccountComponent,
 
   ],
   imports: [

@@ -10,6 +10,7 @@ import { PostService } from '../_services/post.service';
 import { TagService } from '../_services/tag.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { from } from 'rxjs';
+import { Role } from '../model/role';
 
 @Component({
   selector: 'app-create-post',
@@ -21,6 +22,7 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
+  private roles: string[] = [];
 
   constructor(
     private tagService: TagService,
@@ -36,6 +38,7 @@ export class CreatePostComponent implements OnInit {
     this.post.tag = [];
 
     this.user = this.tokenStoreService.getUser();
+    this.roles.push(this.user.roles.name);
   }
 
   onSubmit(){
@@ -50,12 +53,17 @@ export class CreatePostComponent implements OnInit {
 
   createPost(){
     this.postService.createPost(this.post).subscribe(() => {
-     
-      this.gotoManagePost();
+      if(this.roles.includes('ROLE_WRITER')){
+        this.gotoManagePost();
+      }   
     });
   }
 
   gotoManagePost(){
+    this.router.navigate(['post']);
+  }
+
+  gotoAdminManagePost(){
     this.router.navigate(['admin-post']);
   }
 

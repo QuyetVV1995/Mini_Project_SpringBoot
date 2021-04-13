@@ -24,13 +24,13 @@ public class HomeController {
 
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('WRITER') or hasRole('ADMIN')")
     public String userAccess() {
         return "User Content.";
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('WRITER') or hasRole('ADMIN')")
     public String moderatorAccess() {
         return "Page for Writer.";
     }
