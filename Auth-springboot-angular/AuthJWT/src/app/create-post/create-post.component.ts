@@ -56,7 +56,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   gotoManagePost(){
-    this.router.navigate(['post']);
+    this.router.navigate(['admin-post']);
   }
 
 }

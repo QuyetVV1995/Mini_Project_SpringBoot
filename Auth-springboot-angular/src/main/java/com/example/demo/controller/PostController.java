@@ -64,4 +64,9 @@ public class PostController {
         return ResponseEntity.ok(200);
     }
 
+    @GetMapping(value = "/all", produces = "application/json")
+    public ResponseEntity<List<Post>> getAll(){
+        return ResponseEntity.ok(postRepository.findAll());
+    }
+
 }

@@ -45,4 +45,8 @@ export class PostService {
     return this.http.delete(`${this.baseURL}/post/delete/${postId}`);
   }
 
+  getPosts(): Observable<Post[]>{
+    return this.http.get<Post[]>(`${this.baseURL}/post/all`);
+  }
+
 }
