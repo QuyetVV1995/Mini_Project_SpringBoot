@@ -22,7 +22,6 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
-  private roles: string[] = [];
 
   constructor(
     private tagService: TagService,
@@ -38,7 +37,6 @@ export class CreatePostComponent implements OnInit {
     this.post.tag = [];
 
     this.user = this.tokenStoreService.getUser();
-    this.roles.push(this.user.roles.name);
   }
 
   onSubmit(){
@@ -52,10 +50,13 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost(){
-    this.postService.createPost(this.post).subscribe(() => {
-      if(this.roles.includes('ROLE_WRITER')){
+    this.postService.createPost(this.post).subscribe(() => {  
+      if(this.user.roles.toString() == "ROLE_WRITER"){
         this.gotoManagePost();
-      }   
+      }
+      if(this.user.roles.toString() == "ROLE_ADMIN"){
+        this.gotoAdminManagePost();
+      }
     });
   }
 
