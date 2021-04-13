@@ -19,6 +19,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { AdminPostComponent } from './admin/post/post.component';
 import { AccountComponent } from './admin/account/account.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { AccountComponent } from './admin/account/account.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule, ChartsModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
