@@ -20,6 +20,8 @@ import { EditPostComponent } from './edit-post/edit-post.component';
 import { AdminPostComponent } from './admin/post/post.component';
 import { AccountComponent } from './admin/account/account.component';
 import { ChartsModule } from 'ng2-charts';
+import { AccountCreateComponent } from './admin/account/create/create.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   declarations: [
@@ -36,13 +38,14 @@ import { ChartsModule } from 'ng2-charts';
     EditPostComponent,
     AdminPostComponent,
     AccountComponent,
+    AccountCreateComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule, ChartsModule
+    HttpClientModule, ChartsModule, FontAwesomeModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
