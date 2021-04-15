@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { from } from 'rxjs';
+import { AccountCreateComponent } from './admin/account-create/account-create.component';
 import { ListAccountComponent } from './admin/list-account/list-account.component';
 import { ListPostComponent } from './admin/list-post/list-post.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'create-post', component: CreatePostComponent},
   { path: 'edit-post/:id', component: EditPostComponent},
   { path: 'admin-account', component: ListAccountComponent},
-  { path: 'admin-post', component: ListPostComponent}
+  { path: 'admin-post', component: ListPostComponent},
+  { path: 'admin-account-create', component: AccountCreateComponent}
 
 
 ];

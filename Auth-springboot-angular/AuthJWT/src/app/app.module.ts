@@ -20,7 +20,8 @@ import { ChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { ListAccountComponent } from './admin/list-account/list-account.component';
-import { ListPostComponent } from './admin/list-post/list-post.component'
+import { ListPostComponent } from './admin/list-post/list-post.component';
+import { AccountCreateComponent } from './admin/account-create/account-create.component'
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ListPostComponent } from './admin/list-post/list-post.component'
     EditPostComponent,
     ListAccountComponent,
     ListPostComponent,
+    AccountCreateComponent,
 
   ],
   imports: [

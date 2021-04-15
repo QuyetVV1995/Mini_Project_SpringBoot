@@ -1,0 +1,27 @@
+<div class="">
+  <h1>Create new Account </h1>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label> Username</label>
+        <input type="text" class="form-control"
+          id="username" [(ngModel)]="user.username" name="username">
+
+          <label> Email</label>
+          <input type="text" class="form-control"
+          id="email" [(ngModel)]="user.email" name="email">
+
+          <label> Password</label>
+          <input type="password" class="form-control"
+          id="password" [(ngModel)]="user.password" name="password">
+
+          <label>Role: </label>
+          <div class="custom-control" *ngFor="let role of roleList">
+            <input type="checkbox"  name="role.name" (change)="onChange(role)" >
+            <label> {{role.name}} </label>
+        </div>
+    </div>
+
+    <button class="btn btn-success" type="submit">Create</button>
+  </form>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AccountService } from 'src/app/_services/account.service';
 
@@ -12,18 +13,18 @@ export class ListAccountComponent implements OnInit {
   accounts: User[];
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.accountService.getAll().subscribe(data => {
       this.accounts = data;
-      console.log(data);
     });
   }
 
   onCreateAccount(){
-
+    this.router.navigate(['admin-account-create']);
   }
 
 }

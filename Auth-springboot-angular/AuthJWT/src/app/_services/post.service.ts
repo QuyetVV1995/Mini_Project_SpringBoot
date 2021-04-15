@@ -29,8 +29,7 @@ export class PostService {
       title: post.title,
       content: post.content,
       create_at: post.create_at,
-      tags: post.tag,
-      user: post.user
+      tags: post.tag
     });
   }
 

@@ -2,13 +2,20 @@ package com.example.demo.controller;
 
 import com.example.demo.models.Post;
 import com.example.demo.models.Tag;
+import com.example.demo.models.User;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.TagRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.services.UserDetailsImpl;
+import com.example.demo.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +29,9 @@ public class PostController {
     private PostRepository postRepository;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping(value = "/allPost/{userId}", produces = "application/json")
     public ResponseEntity<List<Post>> getAllPostByUser(@PathVariable Long userId){
@@ -35,7 +45,9 @@ public class PostController {
     }
 
     @PostMapping(value = "/create", produces={"application/json"})
-    public ResponseEntity<?> createPost(@RequestBody Post post){
+    public ResponseEntity<?> createPost(@RequestBody Post post, Principal principal){
+        User user = userRepository.findByUsername(principal.getName()).get();
+        post.setUser(user);
         return ResponseEntity.ok(postRepository.save(post));
     }
 
