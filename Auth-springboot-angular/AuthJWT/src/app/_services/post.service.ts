@@ -49,4 +49,8 @@ export class PostService {
     return this.http.get<Post[]>(`${this.baseURL}/all`);
   }
 
+  // getPostsByUsername(username: string): Observable<Post[]>{
+  //   return this.http.head<Post[]>(`${this.baseURL}/${username}`);
+  // }
+
 }
