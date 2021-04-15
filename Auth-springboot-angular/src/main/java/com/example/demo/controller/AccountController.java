@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,5 +34,26 @@ public class AccountController {
     @GetMapping(value = "/get-roles", produces = "application/json")
     public ResponseEntity<List<Role>> getRole(){
         return ResponseEntity.ok(roleRepository.findAll());
+    }
+
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(userRepository.findById(id).get());
+    }
+
+    @PutMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<?> updateUserById(@PathVariable Long id, @Valid @RequestBody User user){
+        User updateUser = userRepository.findById(id).get();
+        updateUser.setUsername(user.getUsername());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPassword(user.getPassword());
+        updateUser.setRoles(null);
+        updateUser.setRoles(user.getRoles());
+        return ResponseEntity.ok(userRepository.save(updateUser));
+    }
+
+    @DeleteMapping(value = "/delete/{id}", produces = "application/json")
+    public void deleteUserById(@PathVariable Long id){
+      userRepository.deleteById(id);
     }
 }

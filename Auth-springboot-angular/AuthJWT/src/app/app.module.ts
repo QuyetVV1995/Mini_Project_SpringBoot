@@ -21,7 +21,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { ListAccountComponent } from './admin/list-account/list-account.component';
 import { ListPostComponent } from './admin/list-post/list-post.component';
-import { AccountCreateComponent } from './admin/account-create/account-create.component'
+import { AccountCreateComponent } from './admin/account-create/account-create.component';
+import { AccountEditComponent } from './admin/account-edit/account-edit.component'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AccountCreateComponent } from './admin/account-create/account-create.co
     ListAccountComponent,
     ListPostComponent,
     AccountCreateComponent,
+    AccountEditComponent,
 
   ],
   imports: [

@@ -27,4 +27,20 @@ export class ListAccountComponent implements OnInit {
     this.router.navigate(['admin-account-create']);
   }
 
+  onEditAccount(userId: number){
+    this.router.navigate(['admin-account-edit', userId]);
+  }
+
+  deleteAccount(id: number){
+    this.accountService.deleteAccById(id).subscribe(() => {
+      this.accountService.getAll().subscribe(data => {
+        this.accounts = data;
+      });
+      this.gotoAdminManageAccount();
+    });
+  }
+
+  gotoAdminManageAccount(){
+    this.router.navigate(['admin-account']);
+  }
 }
