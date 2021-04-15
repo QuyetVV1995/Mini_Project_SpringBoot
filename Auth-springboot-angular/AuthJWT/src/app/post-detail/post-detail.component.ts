@@ -19,8 +19,9 @@ export class PostDetailComponent implements OnInit {
   user: User = new User();
   isLogin = false;
   newComment: Comment = new Comment() ;
-  editComment: Comment ;
+  editComment: Comment = new Comment ;
   isEdit = false;
+  editCommentId: number;
 
   constructor(
     private postService: PostService,
@@ -34,7 +35,7 @@ export class PostDetailComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.postService.getPostById(this.id).subscribe(data => {
       this.post = data;
-      
+
     });
     this.user = this.tokenStoreService.getUser();
     this.isLogin = !!this.user.id;
@@ -53,7 +54,7 @@ export class PostDetailComponent implements OnInit {
 
   gotoPostDetail(){
     this.postService.getPostById(this.id).subscribe(data => {
-      this.post = data;      
+      this.post = data;
     });
     this.router.navigate(['post-detail', this.post.id]);
   }
@@ -76,8 +77,10 @@ export class PostDetailComponent implements OnInit {
     error => console.log(error);
   }
 
-  toggleEdit(){
-    this.isEdit = !this.isEdit; 
+  toggleEdit(editCommentId: number){
+    console.log(editCommentId);
+    this.editCommentId = editCommentId;
+    this.isEdit = !this.isEdit;
   }
 
 }

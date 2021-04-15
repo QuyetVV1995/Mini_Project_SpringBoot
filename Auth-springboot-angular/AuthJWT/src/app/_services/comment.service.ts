@@ -19,7 +19,7 @@ export class CommentService {
   createComment(cmt: Comment, postId: number, userId: number): Observable<Object>{
    return this.http.post(`${this.baseCommentUrl}/create/${postId}/${userId}`, cmt);
 
-    
+
   }
 
   deleteComment(commentId: number, postId: number): Observable<Object>{

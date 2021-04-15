@@ -11,9 +11,9 @@ import { LoginComponent } from './login/login.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
-import { AdminPostComponent} from './admin/post/post.component';
-import { AccountComponent } from './admin/account/account.component';
-import { AccountCreateComponent } from './admin/account/create/create.component';
+// import { AdminPostComponent} from './admin/post/post.component';
+// import { AccountComponent } from './admin/account/account.component';
+// import { AccountCreateComponent } from './admin/account/create/create.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -27,9 +27,9 @@ const routes: Routes = [
   { path: 'post-detail/:id', component: PostDetailComponent},
   { path: 'create-post', component: CreatePostComponent},
   { path: 'edit-post/:id', component: EditPostComponent},
-  { path: 'admin-post', component: AdminPostComponent},
-  { path: 'admin-account', component: AccountComponent},
-  { path: 'admin-account-create', component: AccountCreateComponent}
+  // { path: 'admin-post', component: AdminPostComponent},
+  // { path: 'admin-account', component: AccountComponent},
+  // { path: 'admin-account-create', component: AccountCreateComponent}
 
 ];
 

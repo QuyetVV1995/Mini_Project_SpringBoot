@@ -16,12 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { CreatePostComponent } from './create-post/create-post.component';
-import { EditPostComponent } from './edit-post/edit-post.component';
-import { AdminPostComponent } from './admin/post/post.component';
-import { AccountComponent } from './admin/account/account.component';
+// import { EditPostComponent } from './edit-post/edit-post.component';
+// import { AdminPostComponent } from './admin/post/post.component';
+// import { AccountComponent } from './admin/account/account.component';
 import { ChartsModule } from 'ng2-charts';
-import { AccountCreateComponent } from './admin/account/create/create.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+// import { AccountCreateComponent } from './admin/account/create/create.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditPostComponent } from './edit-post/edit-post.component'
 
 @NgModule({
   declarations: [
@@ -35,10 +36,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
     BoardUserComponent,
     PostDetailComponent,
     CreatePostComponent,
+    CreatePostComponent,
     EditPostComponent,
-    AdminPostComponent,
-    AccountComponent,
-    AccountCreateComponent,
+    // AdminPostComponent,
+    // AccountComponent,
+    // AccountCreateComponent,
 
   ],
   imports: [
