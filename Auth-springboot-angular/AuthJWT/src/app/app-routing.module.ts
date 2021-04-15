@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { from } from 'rxjs';
+import { ListAccountComponent } from './admin/list-account/list-account.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
@@ -11,9 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
-// import { AdminPostComponent} from './admin/post/post.component';
-// import { AccountComponent } from './admin/account/account.component';
-// import { AccountCreateComponent } from './admin/account/create/create.component';
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -27,9 +26,8 @@ const routes: Routes = [
   { path: 'post-detail/:id', component: PostDetailComponent},
   { path: 'create-post', component: CreatePostComponent},
   { path: 'edit-post/:id', component: EditPostComponent},
-  // { path: 'admin-post', component: AdminPostComponent},
-  // { path: 'admin-account', component: AccountComponent},
-  // { path: 'admin-account-create', component: AccountCreateComponent}
+  { path: 'admin-account', component: ListAccountComponent}
+
 
 ];
 
