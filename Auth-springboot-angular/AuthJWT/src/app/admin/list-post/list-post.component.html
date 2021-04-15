@@ -1,0 +1,30 @@
+<button (click)="onCreatePost()">
+  <i class="fas fa-plus"></i> Create new Post
+</button>
+
+<table class="table table-striped" >
+  <thead>
+    <tr>
+      <th >ID</th>
+      <th >Title</th>
+      <th >Content</th>
+      <th >Author</th>
+      <th >Created</th>
+      <th ></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let post of posts">
+      <td  >{{post.id}}</td>
+      <td >{{post.title}}</td>
+      <td >{{post.content | slice:0:50}}</td>
+      <td >{{post.user.username}}</td>
+      <td >{{post.create_at}}</td>
+      <td class="btn-group">
+        <button class=" btn btn-primary" style="margin-left: 10px;" [routerLink]="['/post-detail', post.id]"><i class="far fa-eye"></i></button>
+        <button class=" btn btn-info " style="margin-left: 10px;" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>
+        <button class="btn btn-danger btn-custom" style="margin-left: 10px;" (click)="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

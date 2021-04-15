@@ -56,6 +56,7 @@ export class PostDetailComponent implements OnInit {
     this.postService.getPostById(this.id).subscribe(data => {
       this.post = data;
     });
+    this.newComment = new Comment();
     this.router.navigate(['post-detail', this.post.id]);
   }
 

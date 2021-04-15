@@ -16,7 +16,7 @@
       <tr>
         <td scope="row">{{post.id}}</td>
         <td scope="row">{{post.title}}</td>
-        <td scope="row">{{post.content}}</td>
+        <td scope="row">{{post.content| slice:0:50}}</td>
         <td scope="row">{{post.create_at}}</td>
         <td>
           <button class=" btn-info" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>

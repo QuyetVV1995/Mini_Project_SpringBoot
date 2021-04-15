@@ -19,7 +19,8 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { ChartsModule } from 'ng2-charts';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditPostComponent } from './edit-post/edit-post.component';
-import { ListAccountComponent } from './admin/list-account/list-account.component'
+import { ListAccountComponent } from './admin/list-account/list-account.component';
+import { ListPostComponent } from './admin/list-post/list-post.component'
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ListAccountComponent } from './admin/list-account/list-account.componen
     CreatePostComponent,
     EditPostComponent,
     ListAccountComponent,
+    ListPostComponent,
 
   ],
   imports: [

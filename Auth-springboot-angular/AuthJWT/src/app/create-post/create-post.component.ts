@@ -35,7 +35,6 @@ export class CreatePostComponent implements OnInit {
       this.tags = data;
     });
     this.post.tag = [];
-
     this.user = this.tokenStoreService.getUser();
   }
 
@@ -50,7 +49,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost(){
-    this.postService.createPost(this.post).subscribe(() => {  
+    this.postService.createPost(this.post).subscribe(() => {
       if(this.user.roles.toString() == "ROLE_WRITER"){
         this.gotoManagePost();
       }

@@ -41,7 +41,12 @@ export class EditPostComponent implements OnInit {
 
   onSubmit(){
       this.postService.updatePostById(this.post.id, this.post).subscribe(() => {
+        if(this.user.roles.toString() == "ROLE_WRITER"){
           this.gotoManagePost();
+        }
+        if(this.user.roles.toString() == "ROLE_ADMIN"){
+          this.gotoAdminManagePost();
+        }
       });
   }
 
@@ -53,5 +58,8 @@ export class EditPostComponent implements OnInit {
     this.router.navigate(['post']);
   }
 
+  gotoAdminManagePost(){
+    this.router.navigate(['admin-post']);
+  }
 
 }

@@ -8,7 +8,7 @@ import { Post } from '../model/post';
 })
 export class PostService {
 
-  private baseURL = "http://localhost:8080";
+  private baseURL = "http://localhost:8080/post";
 
   constructor(
     private http: HttpClient,
@@ -16,15 +16,16 @@ export class PostService {
   ) { }
 
   getPostById(postId: number): Observable<Post>{
-    return this.http.get<Post>(`${this.baseURL}/post/detail/${postId}`);
+    return this.http.get<Post>(`${this.baseURL}/detail/${postId}`);
   }
 
   getAllPostByUserId(userId: number): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.baseURL}/post/allPost/${userId}`);
+    return this.http.get<Post[]>(`${this.baseURL}/allPost/${userId}`);
   }
 
   createPost(post: Post): Observable<Object>{
-    return this.http.post(`${this.baseURL}/post/create`,  {
+    console.log(post);
+    return this.http.post(`${this.baseURL}/create`,  {
       title: post.title,
       content: post.content,
       create_at: post.create_at,
@@ -34,7 +35,7 @@ export class PostService {
   }
 
   updatePostById(postId: number, post: Post): Observable<Object>{
-    return this.http.put(`${this.baseURL}/post/edit/${postId}`, {
+    return this.http.put(`${this.baseURL}/edit/${postId}`, {
       title: post.title,
       content: post.content,
       tags: post.tag
@@ -42,11 +43,11 @@ export class PostService {
   }
 
   deletePostById(postId: number): Observable<Object>{
-    return this.http.delete(`${this.baseURL}/post/delete/${postId}`);
+    return this.http.delete(`${this.baseURL}/delete/${postId}`);
   }
 
   getPosts(): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.baseURL}/post/all`);
+    return this.http.get<Post[]>(`${this.baseURL}/all`);
   }
 
 }
