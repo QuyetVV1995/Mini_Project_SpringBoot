@@ -11,6 +11,7 @@ import { TagService } from '../_services/tag.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { from } from 'rxjs';
 import { Role } from '../model/role';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-post',
@@ -22,6 +23,14 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
+  imgFile: string;
+
+   uploadForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required]),
+    file: new FormControl('', [Validators.required]),
+    imgSrc: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private tagService: TagService,
@@ -29,6 +38,9 @@ export class CreatePostComponent implements OnInit {
     private postService: PostService,
     private router: Router
   ) { }
+  get f(){
+    return this.uploadForm.controls;
+  }
 
   ngOnInit(): void {
     this.tagService.getAllTag().subscribe(data => {
@@ -49,6 +61,10 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost(){
+
+    this.post.title = this.uploadForm.value.title;
+    this.post.content = this.uploadForm.value.content;
+
     this.postService.createPost(this.post).subscribe(() => {
       if(this.user.roles.toString() == "ROLE_WRITER"){
         this.gotoManagePost();
