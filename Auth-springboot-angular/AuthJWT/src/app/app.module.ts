@@ -27,6 +27,10 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import { FilterPipe} from './shared/filter.pipe';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -47,6 +51,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     ListPostComponent,
     AccountCreateComponent,
     AccountEditComponent,
+    FilterPipe
 
   ],
   imports: [
@@ -55,7 +60,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     FormsModule,
     HttpClientModule, ChartsModule, FontAwesomeModule,MatTableModule,
     MatPaginatorModule,
-    BrowserAnimationsModule, MatGridListModule
+    BrowserAnimationsModule, MatGridListModule,MatToolbarModule, MatIconModule,
+    MatInputModule
 
 
   ],

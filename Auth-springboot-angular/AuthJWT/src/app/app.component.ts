@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 
 @Component({
@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
   showModeratorBoard = false;
   showUserBoard = false;
   username?: string;
-
   constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {

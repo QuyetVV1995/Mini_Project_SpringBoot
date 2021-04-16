@@ -3,21 +3,28 @@ package com.example.demo.controller;
 import com.example.demo.models.Post;
 import com.example.demo.models.Tag;
 import com.example.demo.models.User;
+import com.example.demo.models.uploadForm;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.TagRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.services.PostService;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +34,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/post/")
 public class PostController {
+    private static String UPLOAD_DIR;
 
     @Autowired
     private PostRepository postRepository;
@@ -34,7 +42,48 @@ public class PostController {
     private TagRepository tagRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PostService postService;
 
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFile(@ModelAttribute("uploadForm") uploadForm form, Principal principal) {
+        // Create folder to save file if not exist
+        if(principal != null){
+            UPLOAD_DIR = principal.getName() + "image";
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            MultipartFile fileData = form.getFileData();
+            String name = fileData.getOriginalFilename();
+            if (name != null && name.length() > 0) {
+                try {
+                    // Create file
+                    File serverFile = new File(UPLOAD_DIR + "/" + name);
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                    stream.write(fileData.getBytes());
+                    stream.close();
+                    return ResponseEntity.ok("/file/"+name);
+                } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error when uploading");
+                }
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
+        }else{
+            return null;
+        }
+    }
+
+
+    @GetMapping(value = "/all", produces = "application/json")
+    public ResponseEntity<Page<Post>> getAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                                             @RequestParam(name = "limit", defaultValue = "10") int limit){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id"));
+        Page<Post> pageResult = postRepository.findAll(pageRequest);
+        return ResponseEntity.ok(pageResult);
+    }
 
     @GetMapping(value = "/allPost/{userId}", produces = "application/json")
     public ResponseEntity<List<Post>> getAllPostByUser(@PathVariable Long userId){
@@ -79,13 +128,10 @@ public class PostController {
         return ResponseEntity.ok(200);
     }
 
-    @GetMapping(value = "/all", produces = "application/json")
-    public ResponseEntity<Page<Post>> getAll(@RequestParam(name = "page", defaultValue = "0") int page,
-                                             @RequestParam(name = "limit", defaultValue = "10") int limit){
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id"));
-        Page<Post> pageResult = postRepository.findAll(pageRequest);
-        return ResponseEntity.ok(pageResult);
-    }
+
+
+
+
 
 
 }

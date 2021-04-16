@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { map, tap } from 'rxjs/operators';
 import { Post } from '../model/post';
@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
   pageEvent: PageEvent;
   dataSource: PostData = null;
   displayedColums: string[] = ['id', 'title', 'content', 'username', 'create_at'];
+  @ViewChild('searchbar') searchbar: ElementRef;
+  searchText = '';
 
   constructor(private userService: UserService,
     private postService: PostService
@@ -38,4 +40,5 @@ export class HomeComponent implements OnInit {
       map((postData: PostData) => this.dataSource = postData)
     ).subscribe();
   }
+
 }

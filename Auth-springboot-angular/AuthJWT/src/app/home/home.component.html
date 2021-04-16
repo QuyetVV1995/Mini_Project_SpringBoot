@@ -1,10 +1,16 @@
+<div>
+  <mat-form-field class="search" floatLabel="never">
+    <input matInput placeholder="Search" appHighlightOnHover [(ngModel)]="searchText">
+  </mat-form-field>
+</div>
+
 <div *ngIf="dataSource">
   <mat-grid-list cols="3" rowHeight="0.8:1">
-    <mat-grid-tile *ngFor="let data of dataSource.content">
+    <mat-grid-tile *ngFor="let data of dataSource.content | filter: searchText ">
 
       <mat-card class="example-card">
         <mat-card-header>
-          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title> {{data.title}} </mat-card-title>
           <div>
             <mat-card-subtitle> {{data.user.username}} </mat-card-subtitle>
@@ -23,9 +29,15 @@
           <button mat-button class="btn-info" [routerLink]="['/post-detail', data.id]">See more...</button>
         </mat-card-actions>
       </mat-card>
+
+
+      <mat-card *ngIf="(dataSource.content | filter: searchText).length === 0">
+        <mat-icon mat-list-avatar>error</mat-icon>
+        <div mat-line>0 results</div>
+        <div mat-line>No matching presidents</div>
+      </mat-card>
+
     </mat-grid-tile>
-
-
   </mat-grid-list>
 
   <mat-paginator [length]="dataSource.totalElements"

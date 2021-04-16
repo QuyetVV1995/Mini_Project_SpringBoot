@@ -1,17 +1,16 @@
 package com.example.demo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.springframework.stereotype.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 @Entity(name = "post")
 @Table(name = "post")
@@ -21,10 +20,12 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @FullTextField //Đánh chỉ mục full text
+    // This property is mapped to a document field
+    @FullTextField
     private String title;
 
-    @FullTextField //Đánh chỉ mục full text
+    // This property is mapped to a document field
+    @FullTextField
     @Column(length=5000)
     private String content;
 
