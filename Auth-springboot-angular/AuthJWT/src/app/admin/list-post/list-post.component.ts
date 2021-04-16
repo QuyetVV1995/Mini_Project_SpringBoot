@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ChartDataSets, ChartOptions, ChartScales, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { map, tap } from 'rxjs/operators';
 import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { AccountService } from 'src/app/_services/account.service';
-import { PostService } from 'src/app/_services/post.service';
+import { PostData, PostService } from 'src/app/_services/post.service';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
 
 @Component({
@@ -16,8 +18,10 @@ import { TokenStorageService } from 'src/app/_services/token-storage.service';
 export class ListPostComponent implements OnInit {
 
   user: User = new User();
-  posts: Post[];
+  dataSource: PostData = null;
   lengthIndex: number[];
+  pageEvent: PageEvent;
+  displayedColums: string[] = ['id', 'title', 'content', 'username', 'create_at'];
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -49,9 +53,11 @@ export class ListPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.tokenStoreService.getUser();
-    this.postService.getPosts().subscribe(data => {
-      this.posts = data;
-    });
+    this.postService.getPosts(0,10).pipe(
+      tap(),
+      map((postData: PostData) => this.dataSource = postData)
+    ).subscribe();
+
     this.chartJS();
   }
 
@@ -71,10 +77,6 @@ export class ListPostComponent implements OnInit {
         label: "Manage Post"
       }];
     });
-
-
-    console.log(this.barChartLabels);
-    console.log(this.lengthIndex);
   }
 
 
@@ -93,11 +95,21 @@ export class ListPostComponent implements OnInit {
   }
 
   gotoAdminPost(){
-    this.postService.getPosts().subscribe(data => {
-      this.posts = data;
-    });
+     this.postService.getPosts(0,10).pipe(
+      tap(),
+      map((postData: PostData) => this.dataSource = postData)
+    ).subscribe();
     this.chartJS();
     this.router.navigate(['admin-post']);
+  }
+
+  onPaginateChange(event: PageEvent){
+    let page = event.pageIndex;
+    let size = event.pageSize;
+    this.postService.getPosts(page, size).pipe(
+      tap(),
+      map((postData: PostData) => this.dataSource = postData)
+    ).subscribe();
   }
 
 

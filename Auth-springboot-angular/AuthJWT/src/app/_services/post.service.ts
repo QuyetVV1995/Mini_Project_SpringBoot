@@ -1,7 +1,20 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable, throwError } from 'rxjs';
 import { Post } from '../model/post';
+import { catchError, map } from 'rxjs/operators';
+
+export interface PostData{
+  content: Post[],
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+  },
+  totalPages: number,
+  totalElements: number,
+  numberOfElements: number
+}
 
 @Injectable({
   providedIn: 'root'
@@ -45,12 +58,15 @@ export class PostService {
     return this.http.delete(`${this.baseURL}/delete/${postId}`);
   }
 
-  getPosts(): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.baseURL}/all`);
-  }
+  getPosts(page: number, size: number): Observable<PostData>{
+    let params = new HttpParams();
+    params = params.append('page', String(page));
+    params = params.append('limit', String(size));
 
-  // getPostsByUsername(username: string): Observable<Post[]>{
-  //   return this.http.head<Post[]>(`${this.baseURL}/${username}`);
-  // }
+    return this.http.get(`${this.baseURL}/all`, {params}).pipe(
+      map((post: PostData) => post),
+      catchError(err => throwError(err))
+    );
+  }
 
 }

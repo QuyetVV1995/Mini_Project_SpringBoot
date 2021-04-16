@@ -2,32 +2,51 @@
   <i class="fas fa-plus"></i> Create new Post
 </button>
 
-<table class="table table-striped" >
-  <thead>
-    <tr>
-      <th >ID</th>
-      <th >Title</th>
-      <th >Content</th>
-      <th >Author</th>
-      <th >Created</th>
-      <th ></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let post of posts">
-      <td  >{{post.id}}</td>
-      <td >{{post.title}}</td>
-      <td >{{post.content | slice:0:50}}</td>
-      <td >{{post.user.username}}</td>
-      <td >{{post.create_at}}</td>
-      <td class="btn-group">
-        <button class=" btn btn-primary" style="margin-left: 10px;" [routerLink]="['/post-detail', post.id]"><i class="far fa-eye"></i></button>
-        <button class=" btn btn-info " style="margin-left: 10px;" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>
-        <button class="btn btn-danger btn-custom" style="margin-left: 10px;" (click)="deletePost(post.id)"><i class="fas fa-trash"></i></button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div *ngIf="dataSource">
+  <mat-table [dataSource]="dataSource.content">
+
+    <mat-header-row *matHeaderRowDef="displayedColums"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColums"></mat-row>
+
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+    </ng-container>
+
+    <!-- Title -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.title}}</mat-cell>
+    </ng-container>
+
+    <!-- Content -->
+    <ng-container matColumnDef="content">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Content </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.content}} </mat-cell>
+    </ng-container>
+
+    <!-- Author -->
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Author </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.user.username}}</mat-cell>
+    </ng-container>
+
+    <!-- Created -->
+    <ng-container matColumnDef="create_at">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Created </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.create_at}} </mat-cell>
+    </ng-container>
+
+  </mat-table>
+
+  <mat-paginator [length]="dataSource.totalElements"
+               [pageSize]="dataSource.pageable.pageSize"
+               [pageSizeOptions]="[5,10,25,100]"
+               (page)="pageEvent = $event; onPaginateChange($event)"
+               showFirstLastButtons>
+  </mat-paginator>
+</div>
 
 <div class="chart-wrapper">
   <canvas baseChart

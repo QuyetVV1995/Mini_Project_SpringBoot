@@ -9,6 +9,9 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.security.services.UserDetailsImpl;
 import com.example.demo.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -77,8 +80,11 @@ public class PostController {
     }
 
     @GetMapping(value = "/all", produces = "application/json")
-    public ResponseEntity<List<Post>> getAll(){
-        return ResponseEntity.ok(postRepository.findAll());
+    public ResponseEntity<Page<Post>> getAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                                             @RequestParam(name = "limit", defaultValue = "10") int limit){
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id"));
+        Page<Post> pageResult = postRepository.findAll(pageRequest);
+        return ResponseEntity.ok(pageResult);
     }
 
 

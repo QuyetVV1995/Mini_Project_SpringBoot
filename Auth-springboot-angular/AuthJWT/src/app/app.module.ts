@@ -23,6 +23,11 @@ import { ListAccountComponent } from './admin/list-account/list-account.componen
 import { ListPostComponent } from './admin/list-post/list-post.component';
 import { AccountCreateComponent } from './admin/account-create/account-create.component';
 import { AccountEditComponent } from './admin/account-edit/account-edit.component'
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +53,11 @@ import { AccountEditComponent } from './admin/account-edit/account-edit.componen
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule, ChartsModule, FontAwesomeModule
+    HttpClientModule, ChartsModule, FontAwesomeModule,MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule, MatGridListModule
+
+
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
