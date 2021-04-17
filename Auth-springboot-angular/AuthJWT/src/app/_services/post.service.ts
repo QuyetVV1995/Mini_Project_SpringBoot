@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { from, Observable, throwError } from 'rxjs';
 import { Post } from '../model/post';
 import { catchError, map } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
 
 export interface PostData{
   content: Post[],
@@ -30,6 +31,10 @@ export class PostService {
 
   getPostById(postId: number): Observable<Post>{
     return this.http.get<Post>(`${this.baseURL}/detail/${postId}`);
+  }
+
+  uploadFile(form: FormData): Observable<Object>{
+    return this.http.post(`${this.baseURL}/upload`, form);
   }
 
   getAllPostByUserId(userId: number): Observable<Post[]>{

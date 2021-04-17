@@ -23,7 +23,8 @@ export class CreatePostComponent implements OnInit {
   post: Post = new Post();
   tags: Tag[];
   user: User;
-  imgFile: string;
+  selectedFile: File;
+  imageSrc: string;
 
    uploadForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -53,11 +54,25 @@ export class CreatePostComponent implements OnInit {
   onSubmit(){
     this.post.user = this.user;
     this.post.create_at = new Date();
+    this.uploadFile();
     this.createPost();
   }
 
   onChange(tagCheck: Tag){
     this.post.tag.push(tagCheck);
+  }
+
+  uploadFile(){
+   const formData = new FormData();
+   formData.append('file', this.selectedFile, this.selectedFile.name);
+   this.postService.uploadFile(formData).subscribe((res) => {
+      console.log(res);
+   });
+  }
+
+  public onFileChange(event) {
+    //Select File
+    this.selectedFile = event.target.files[0];
   }
 
   createPost(){

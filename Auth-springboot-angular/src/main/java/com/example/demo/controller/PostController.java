@@ -1,15 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.models.Image;
 import com.example.demo.models.Post;
 import com.example.demo.models.Tag;
 import com.example.demo.models.User;
-import com.example.demo.models.uploadForm;
+import com.example.demo.repository.ImageRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.TagRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.services.PostService;
-import com.example.demo.security.services.UserDetailsImpl;
-import com.example.demo.security.services.UserDetailsServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
@@ -19,20 +18,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.security.Principal;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -48,51 +46,23 @@ public class PostController {
     private UserRepository userRepository;
     @Autowired
     private PostService postService;
+    @Autowired
+    private ImageRepository imageRepository;
 
-    @GetMapping("/file/{filename}")
-    public ResponseEntity<?> download(@PathVariable String filename) throws NotFoundException {
-        File file = new File(UPLOAD_DIR + "/" + filename);
-        if (!file.exists()) {
-            throw new NotFoundException("File not found");
-        }
+    @GetMapping(path = { "/download/{imageName}" })
+    public Image getImage(@PathVariable("imageName") String imageName) throws IOException {
 
-        UrlResource resource;
-        try {
-            resource = new UrlResource(file.toURI());
-        } catch (MalformedURLException e) {
-            throw new NotFoundException("File not found");
-        }
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body(resource);
+        final Optional<Image> retrievedImage = imageRepository.findByName(imageName);
+        Image img = new Image(retrievedImage.get().getName(), retrievedImage.get().getType(),
+                decompressBytes(retrievedImage.get().getPicByte()));
+        return img;
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@ModelAttribute("uploadForm") uploadForm form, Principal principal) {
-        // Create folder to save file if not exist
-        // TODO: edit UPLOAD_DIR = principal.getName() + "image"
-        File uploadDir = new File(UPLOAD_DIR);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-
-        MultipartFile fileData = form.getFileData();
-        String name = fileData.getOriginalFilename();
-        if (name != null && name.length() > 0) {
-            try {
-                // Create file
-                File serverFile = new File(UPLOAD_DIR + "/" + name);
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(fileData.getBytes());
-                stream.close();
-                return ResponseEntity.ok("/file/"+name);
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error when uploading");
-            }
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+        Image img = new Image(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+        imageRepository.save(img);
+        return ResponseEntity.ok(200);
     }
 
 
@@ -145,6 +115,45 @@ public class PostController {
     public ResponseEntity<?> deletePostById(@PathVariable Long id){
         postRepository.deleteById(id);
         return ResponseEntity.ok(200);
+    }
+
+    // compress the image bytes before storing it in the database
+    public static byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+
+        return outputStream.toByteArray();
+    }
+
+    // uncompress the image bytes before returning it to the angular application
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
     }
 
 }
