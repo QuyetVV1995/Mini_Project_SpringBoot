@@ -37,6 +37,10 @@ export class PostService {
     return this.http.post(`${this.baseURL}/upload`, form);
   }
 
+  downloadFile(imageName: string): Observable<Object>{
+    return this.http.get(`${this.baseURL}/download/${imageName}`);
+  }
+
   getAllPostByUserId(userId: number): Observable<Post[]>{
     return this.http.get<Post[]>(`${this.baseURL}/allPost/${userId}`);
   }

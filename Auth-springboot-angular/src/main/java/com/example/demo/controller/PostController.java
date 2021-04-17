@@ -60,9 +60,16 @@ public class PostController {
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
-        Image img = new Image(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-        imageRepository.save(img);
-        return ResponseEntity.ok(200);
+        if(imageRepository.findByName(file.getOriginalFilename()) != null){
+            Image img = new Image(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+            imageRepository.save(img);
+            return ResponseEntity.ok(200);
+        }else
+        {
+            return null;
+        }
+
+
     }
 
 

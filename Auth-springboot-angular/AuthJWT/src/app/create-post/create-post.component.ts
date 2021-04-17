@@ -25,6 +25,9 @@ export class CreatePostComponent implements OnInit {
   user: User;
   selectedFile: File;
   imageSrc: string;
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
 
    uploadForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -54,7 +57,6 @@ export class CreatePostComponent implements OnInit {
   onSubmit(){
     this.post.user = this.user;
     this.post.create_at = new Date();
-    this.uploadFile();
     this.createPost();
   }
 
@@ -65,14 +67,23 @@ export class CreatePostComponent implements OnInit {
   uploadFile(){
    const formData = new FormData();
    formData.append('file', this.selectedFile, this.selectedFile.name);
-   this.postService.uploadFile(formData).subscribe((res) => {
-      console.log(res);
+   this.postService.uploadFile(formData).subscribe(() => {
    });
   }
 
   public onFileChange(event) {
     //Select File
+    const reader = new FileReader();
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imageSrc = reader.result as string;
+      };
+
+    }
     this.selectedFile = event.target.files[0];
+    this.uploadFile();
   }
 
   createPost(){
