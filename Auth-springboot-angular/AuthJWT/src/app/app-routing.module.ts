@@ -5,6 +5,7 @@ import { AccountCreateComponent } from './admin/account-create/account-create.co
 import { AccountEditComponent } from './admin/account-edit/account-edit.component';
 import { ListAccountComponent } from './admin/list-account/list-account.component';
 import { ListPostComponent } from './admin/list-post/list-post.component';
+import { AdvComponent } from './advertisement/adv.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
@@ -34,9 +35,8 @@ const routes: Routes = [
   { path: 'admin-post', component: ListPostComponent},
   { path: 'admin-account-create', component: AccountCreateComponent},
   { path: 'admin-account-edit/:id', component:AccountEditComponent},
-  { path: 'import-excel', component: ImportExcelComponent}
-
-
+  { path: 'import-excel', component: ImportExcelComponent},
+  { path: 'adv', component: AdvComponent}
 ];
 
 @NgModule({

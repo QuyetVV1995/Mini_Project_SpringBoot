@@ -32,6 +32,14 @@ import {MatIconModule} from '@angular/material/icon';
 import { FilterPipe} from './shared/filter.pipe';
 import {MatInputModule} from '@angular/material/input';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
+import { AdvetisementService } from './_services/advetisement.service';
+import { AdvComponent } from './advertisement/adv.component';
+import { HeroJobAdComponent } from './advertisement/hero-job-ad.component';
+import { AdBannerComponent } from './advertisement/ad-banner.component';
+import { AdDirective } from './advertisement/ad.directive';
+import { KotobaComponent } from './advertisement/kotoba.component';
+
+
 
 
 @NgModule({
@@ -53,9 +61,15 @@ import { ImportExcelComponent } from './import-excel/import-excel.component';
     AccountCreateComponent,
     AccountEditComponent,
     FilterPipe,
-    ImportExcelComponent
+    ImportExcelComponent,
+    AdvComponent,
+    AdBannerComponent,
+    AdDirective,
+    HeroJobAdComponent,
+    KotobaComponent
 
   ],
+  bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -68,7 +82,6 @@ import { ImportExcelComponent } from './import-excel/import-excel.component';
 
 
   ],
-  providers: [authInterceptorProviders],
-  bootstrap: [AppComponent]
+  providers: [authInterceptorProviders, AdvetisementService]
 })
 export class AppModule { }

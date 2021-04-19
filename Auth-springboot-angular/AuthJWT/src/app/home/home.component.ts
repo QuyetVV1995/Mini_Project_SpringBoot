@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
 
     this.postService.getListKotoba().subscribe(data => {
       this.kotobas = data;
-      console.log(this.kotobas);
     });
 
 
