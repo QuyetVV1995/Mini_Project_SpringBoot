@@ -82,8 +82,8 @@ export class CreatePostComponent implements OnInit {
       };
 
     }
-    this.selectedFile = event.target.files[0];
-    this.uploadFile();
+    // this.selectedFile = event.target.files[0];
+    // this.uploadFile();
   }
 
   createPost(){

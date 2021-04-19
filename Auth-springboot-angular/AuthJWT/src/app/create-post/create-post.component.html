@@ -40,8 +40,10 @@
             (change)="onFileChange($event)">
 
     </div>
-
-    <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+    <div>
+      <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+    </div>
+    <br>
       <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 </div>
