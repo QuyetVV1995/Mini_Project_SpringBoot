@@ -68,12 +68,17 @@ public class PostController {
                 Kotoba kotoba = new Kotoba();
 
                 XSSFRow row = worksheet.getRow(index);
-                kotoba.setYomikata(row.getCell(0).getStringCellValue());
                 kotoba.setKanji(row.getCell(1).getStringCellValue());
-                kotoba.setImi(row.getCell(2).getStringCellValue());
-                kotoba.setRei(row.getCell(3).getStringCellValue());
-                kotoba.setIminorei(row.getCell(4).getStringCellValue());
-                kotobaRepository.save(kotoba);
+                if(kotobaRepository.findByKanji(kotoba.getKanji()) == null){
+                    kotoba.setYomikata(row.getCell(0).getStringCellValue());
+                    kotoba.setImi(row.getCell(2).getStringCellValue());
+                    kotoba.setRei(row.getCell(3).getStringCellValue());
+                    kotoba.setIminorei(row.getCell(4).getStringCellValue());
+                    kotobaRepository.save(kotoba);
+                }else {
+
+                }
+
             }
         }
         return ResponseEntity.ok(200);
