@@ -4,6 +4,7 @@ import { from, Observable, throwError } from 'rxjs';
 import { Post } from '../model/post';
 import { catchError, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { Kotoba } from '../model/kotoba.model';
 
 export interface PostData{
   content: Post[],
@@ -28,6 +29,10 @@ export class PostService {
     private http: HttpClient,
 
   ) { }
+
+  getListKotoba():Observable<Kotoba[]>{
+    return this.http.get<Kotoba[]>(`${this.baseURL}/kotoba`);
+  }
 
   getPostById(postId: number): Observable<Post>{
     return this.http.get<Post>(`${this.baseURL}/detail/${postId}`);

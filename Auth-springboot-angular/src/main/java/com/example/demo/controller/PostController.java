@@ -48,6 +48,11 @@ public class PostController {
     @Autowired
     private KotobaRepository kotobaRepository;
 
+    @GetMapping(value = "kotoba", produces = "application/json")
+    public ResponseEntity<List<Kotoba>> getKotoba(){
+        return ResponseEntity.ok(kotobaRepository.findAll());
+    }
+
     @GetMapping(path = { "/download/{imageName}" })
     public Image getImage(@PathVariable("imageName") String imageName) throws IOException {
 
