@@ -11,6 +11,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { HomeComponent } from './home/home.component';
+import { ImportExcelComponent } from './import-excel/import-excel.component';
 import { LoginComponent } from './login/login.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -32,7 +33,8 @@ const routes: Routes = [
   { path: 'admin-account', component: ListAccountComponent},
   { path: 'admin-post', component: ListPostComponent},
   { path: 'admin-account-create', component: AccountCreateComponent},
-  { path: 'admin-account-edit/:id', component:AccountEditComponent}
+  { path: 'admin-account-edit/:id', component:AccountEditComponent},
+  { path: 'import-excel', component: ImportExcelComponent}
 
 
 ];

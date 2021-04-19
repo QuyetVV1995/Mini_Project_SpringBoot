@@ -31,6 +31,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { FilterPipe} from './shared/filter.pipe';
 import {MatInputModule} from '@angular/material/input';
+import { ImportExcelComponent } from './import-excel/import-excel.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {MatInputModule} from '@angular/material/input';
     ListPostComponent,
     AccountCreateComponent,
     AccountEditComponent,
-    FilterPipe
+    FilterPipe,
+    ImportExcelComponent
 
   ],
   imports: [

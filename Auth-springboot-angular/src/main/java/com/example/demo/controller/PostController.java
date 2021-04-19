@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.models.Image;
-import com.example.demo.models.Post;
-import com.example.demo.models.Tag;
-import com.example.demo.models.User;
-import com.example.demo.repository.ImageRepository;
-import com.example.demo.repository.PostRepository;
-import com.example.demo.repository.TagRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.models.*;
+import com.example.demo.repository.*;
 import com.example.demo.security.services.PostService;
 import javassist.NotFoundException;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
@@ -48,6 +45,8 @@ public class PostController {
     private PostService postService;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private KotobaRepository kotobaRepository;
 
     @GetMapping(path = { "/download/{imageName}" })
     public Image getImage(@PathVariable("imageName") String imageName) throws IOException {
@@ -56,6 +55,28 @@ public class PostController {
         Image img = new Image(retrievedImage.get().getName(), retrievedImage.get().getType(),
                 decompressBytes(retrievedImage.get().getPicByte()));
         return img;
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(value = "excel-file", produces = "application/json")
+    public ResponseEntity<?> uploadExcelFile(@RequestParam("file") MultipartFile file) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+        XSSFSheet worksheet = workbook.getSheetAt(0);
+
+        for (int index = 0; index < worksheet.getPhysicalNumberOfRows(); index++) {
+            if (index > 0) {
+                Kotoba kotoba = new Kotoba();
+
+                XSSFRow row = worksheet.getRow(index);
+                kotoba.setYomikata(row.getCell(0).getStringCellValue());
+                kotoba.setKanji(row.getCell(1).getStringCellValue());
+                kotoba.setImi(row.getCell(2).getStringCellValue());
+                kotoba.setRei(row.getCell(3).getStringCellValue());
+                kotoba.setIminorei(row.getCell(4).getStringCellValue());
+                kotobaRepository.save(kotoba);
+            }
+        }
+        return ResponseEntity.ok(200);
     }
 
     @PostMapping("/upload")

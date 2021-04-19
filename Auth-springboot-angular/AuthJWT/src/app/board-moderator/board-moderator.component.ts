@@ -17,7 +17,7 @@ export class BoardModeratorComponent implements OnInit {
   user: User = new User();
   posts: Post[];
 
-  
+
   constructor(
     private postService: PostService,
     private tokenStoreService: TokenStorageService,
@@ -26,12 +26,16 @@ export class BoardModeratorComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.tokenStoreService.getUser();
-    
+
     this.postService.getAllPostByUserId(this.user.id).subscribe(data => {
       this.posts = data;
     });
   }
 
+
+  onImportExcel(){
+    this.router.navigate(['import-excel']);
+  }
   onCreatePost(){
     this.router.navigate(['create-post']);
   }

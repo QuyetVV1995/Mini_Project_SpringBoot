@@ -33,6 +33,10 @@ export class PostService {
     return this.http.get<Post>(`${this.baseURL}/detail/${postId}`);
   }
 
+  uploadExcel(form: FormData): Observable<Object>{
+    return this.http.post(`${this.baseURL}/excel-file`, form);
+  }
+
   uploadFile(form: FormData): Observable<Object>{
     return this.http.post(`${this.baseURL}/upload`, form);
   }
