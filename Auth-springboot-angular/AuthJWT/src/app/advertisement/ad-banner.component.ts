@@ -40,9 +40,7 @@ export class AdBannerComponent implements OnInit, OnDestroy {
   }
 
   loadComponent() {
-    console.log(this.kotobas);
     this.currentAdIndex = (this.currentAdIndex + 1) % this.kotobas.length;
-    console.log(this.kotobas.length);
     const adItem = this.kotobas[this.currentAdIndex];
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(KotobaComponent);

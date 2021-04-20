@@ -22,6 +22,7 @@ export class PostDetailComponent implements OnInit {
   editComment: Comment = new Comment ;
   isEdit = false;
   editCommentId: number;
+  editorText = '';
 
   constructor(
     private postService: PostService,
@@ -35,6 +36,7 @@ export class PostDetailComponent implements OnInit {
     this.id = this.route.snapshot.params['id'];
     this.postService.getPostById(this.id).subscribe(data => {
       this.post = data;
+      this.editorText = data.content;
 
     });
     this.user = this.tokenStoreService.getUser();

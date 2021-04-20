@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Comment } from '../model/comment';
 
@@ -12,6 +12,9 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { from } from 'rxjs';
 import { Role } from '../model/role';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+
+
 
 @Component({
   selector: 'app-create-post',
@@ -28,13 +31,25 @@ export class CreatePostComponent implements OnInit {
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;
-
-   uploadForm = new FormGroup({
+  model: string = '';
+  uploadForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
     file: new FormControl('', [Validators.required]),
     imgSrc: new FormControl('', [Validators.required])
   });
+
+  @ViewChild('editor') editor;
+  modules = {
+    formula: true,
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ['bold', 'italic', 'underline'],
+      ['formula'],
+      ['image', 'code-block']
+    ]
+  };
+
 
   constructor(
     private tagService: TagService,
@@ -52,6 +67,10 @@ export class CreatePostComponent implements OnInit {
     });
     this.post.tag = [];
     this.user = this.tokenStoreService.getUser();
+  }
+
+  changeEditor(event: EditorChangeContent | EditorChangeSelection){
+    console.log(event);
   }
 
   onSubmit(){
@@ -90,6 +109,8 @@ export class CreatePostComponent implements OnInit {
 
     this.post.title = this.uploadForm.value.title;
     this.post.content = this.uploadForm.value.content;
+
+    console.log(this.post);
 
     this.postService.createPost(this.post).subscribe(() => {
       if(this.user.roles.toString() == "ROLE_WRITER"){

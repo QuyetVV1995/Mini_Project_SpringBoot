@@ -38,8 +38,8 @@ import { HeroJobAdComponent } from './advertisement/hero-job-ad.component';
 import { AdBannerComponent } from './advertisement/ad-banner.component';
 import { AdDirective } from './advertisement/ad.directive';
 import { KotobaComponent } from './advertisement/kotoba.component';
-
-
+import { QuillModule} from 'ngx-quill'
+import { from } from 'rxjs';
 
 
 @NgModule({
@@ -78,9 +78,8 @@ import { KotobaComponent } from './advertisement/kotoba.component';
     HttpClientModule, ChartsModule, FontAwesomeModule,MatTableModule,
     MatPaginatorModule,
     BrowserAnimationsModule, MatGridListModule,MatToolbarModule, MatIconModule,
-    MatInputModule
-
-
+    MatInputModule,
+    QuillModule.forRoot()
   ],
   providers: [authInterceptorProviders, AdvetisementService]
 })

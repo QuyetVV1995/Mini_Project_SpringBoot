@@ -29,7 +29,8 @@
         <td scope="row">{{post.content| slice:0:50}}</td>
         <td scope="row">{{post.create_at}}</td>
         <td>
-          <button class=" btn-info" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>
+          <button mat-button class="btn-info"  style="margin-left: 10px;" [routerLink]="['/post-detail', post.id]"><i class="far fa-eye"></i></button>
+          <button class=" btn-info"  style="margin-left: 10px;" (click)="onEditPost(post.id)"><i class="far fa-edit"></i></button>
           <button (click)="deletePost(post.id)" class=" btn-danger" style="margin-left: 10px;" ><i class="fas fa-trash"></i> </button>
         </td>
       </tr>

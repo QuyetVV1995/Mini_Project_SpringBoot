@@ -23,11 +23,9 @@
       </div>
       <div class="form-group">
         <label for="content">Content</label>
-        <textarea class="content"
-            formControlName="content"
-            id="content"
-            type="text"
-            class="form-control"></textarea>
+        <quill-editor [styles]="{height: '200px'}"  formControlName="content" >
+
+        </quill-editor>
       </div>
 
       <div class="form-group">
